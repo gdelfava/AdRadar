@@ -1,7 +1,6 @@
 import Foundation
 import StoreKit
 import Combine
-import FirebaseDatabase
 import CommonCrypto
 
 @MainActor
@@ -97,8 +96,7 @@ public class StoreKitManager: ObservableObject {
             // Deliver content to the user
             await updatePurchasedProducts()
             
-            // Upload subscription data to Firebase
-            await uploadSubscriptionToFirebase(product: product, transaction: transaction)
+            // Note: Firebase database upload removed - subscription data no longer uploaded
             
             // Always finish a transaction
             await transaction.finish()
@@ -138,8 +136,7 @@ public class StoreKitManager: ObservableObject {
                     // Deliver products to the user
                     await self.updatePurchasedProducts()
                     
-                    // Upload subscription data to Firebase for background transactions
-                    await self.uploadSubscriptionToFirebase(transaction: transaction)
+                    // Note: Firebase database upload removed - subscription data no longer uploaded
                     
                     // Always finish a transaction
                     await transaction.finish()
@@ -276,54 +273,10 @@ public class StoreKitManager: ObservableObject {
                hasActivePremiumSubscription()
     }
     
-    // MARK: - Firebase Integration
+    // MARK: - Firebase Integration (Removed)
     
-    private func uploadSubscriptionToFirebase(product: Product, transaction: Transaction) async {
-        await uploadSubscriptionToFirebase(transaction: transaction)
-    }
-    
-    private func uploadSubscriptionToFirebase(transaction: Transaction) async {
-        // Get user information from AuthViewModel
-        let authViewModel = AuthViewModel.shared
-        
-        // Skip if in demo mode
-        if authViewModel.isDemoMode {
-            print("📱 [StoreKit] Skipping Firebase upload in demo mode")
-            return
-        }
-        
-        // Get user email and generate UID
-        let email = authViewModel.userEmail.isEmpty ? "unknown@example.com" : authViewModel.userEmail
-        let uid = generateUserUID(email: email)
-        
-        // Determine subscription plan and status
-        let plan = transaction.productID
-        let isPro = isProSubscription(transaction.productID)
-        
-        print("📤 [StoreKit] Uploading subscription to Firebase: email=\(email), plan=\(plan), isPro=\(isPro)")
-        
-        // Upload to Firebase
-        await FirebaseSubscriptionService.shared.uploadSubscriptionData(
-            email: email,
-            isPro: isPro,
-            plan: plan,
-            uid: uid
-        )
-    }
-    
-    private func generateUserUID(email: String) -> String {
-        // Create a consistent UID based on email
-        let sanitizedEmail = email.lowercased().trimmingCharacters(in: .whitespacesAndNewlines)
-        let data = Data(sanitizedEmail.utf8)
-        let hash = data.sha256()
-        return hash.hexString
-    }
-    
-    private func isProSubscription(_ productID: String) -> Bool {
-        return productID.contains("pro_monthly_sub") || 
-               productID.contains("pro_yearly_sub") ||
-               productID.contains("premium")
-    }
+    // Note: Firebase database integration has been removed
+    // Subscription data is no longer uploaded to Firebase
 }
 
 // MARK: - Supporting Types

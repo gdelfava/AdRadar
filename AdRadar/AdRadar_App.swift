@@ -17,7 +17,7 @@ struct AdRadar_App: App {
     @StateObject private var backgroundDataManager = BackgroundDataManager.shared
     @StateObject private var storeKitManager = StoreKitManager.shared
     @StateObject private var premiumStatusManager = PremiumStatusManager.shared
-    @StateObject private var firebaseSubscriptionService = FirebaseSubscriptionService.shared
+    // FirebaseSubscriptionService removed - no longer needed
     
     init() {
         // Initialize Firebase first
@@ -141,7 +141,7 @@ struct AdRadar_App: App {
                 .environmentObject(backgroundDataManager)
                 .environmentObject(storeKitManager)
                 .environmentObject(premiumStatusManager)
-                .environmentObject(firebaseSubscriptionService)
+                // FirebaseSubscriptionService environment object removed
                 .onReceive(NotificationCenter.default.publisher(for: UIApplication.didBecomeActiveNotification)) { _ in
                     // Check memory when app becomes active
                     let memoryPressureDetected = MemoryManager.shared.checkMemoryPressure()

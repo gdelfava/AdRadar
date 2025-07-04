@@ -1,7 +1,6 @@
 import Foundation
 import Combine
 import StoreKit
-import FirebaseDatabase
 import CommonCrypto
 
 @MainActor
@@ -149,10 +148,7 @@ class PremiumStatusManager: ObservableObject {
         // Update subscription status
         updateSubscriptionStatus()
         
-        // Upload subscription status to Firebase
-        Task {
-            await uploadSubscriptionStatusToFirebase()
-        }
+        // Note: Firebase database upload removed - subscription data no longer uploaded
     }
     
     private func updatePremiumFeatures() {
@@ -305,42 +301,10 @@ class PremiumStatusManager: ObservableObject {
         // ])
     }
     
-    // MARK: - Firebase Integration
+    // MARK: - Firebase Integration (Removed)
     
-    private func uploadSubscriptionStatusToFirebase() async {
-        // Skip if in demo mode
-        if AuthViewModel.shared.isDemoMode {
-            print("📱 [PremiumStatus] Skipping Firebase upload in demo mode")
-            return
-        }
-        
-        // Get user information
-        let authViewModel = AuthViewModel.shared
-        let email = authViewModel.userEmail.isEmpty ? "unknown@example.com" : authViewModel.userEmail
-        let uid = generateUserUID(email: email)
-        
-        // Determine current plan and status
-        let plan = getCurrentPlan()
-        let isPro = isPremiumUser
-        
-        print("📤 [PremiumStatus] Uploading subscription status to Firebase: email=\(email), plan=\(plan), isPro=\(isPro)")
-        
-        // Upload to Firebase
-        await FirebaseSubscriptionService.shared.uploadSubscriptionData(
-            email: email,
-            isPro: isPro,
-            plan: plan,
-            uid: uid
-        )
-    }
-    
-    private func generateUserUID(email: String) -> String {
-        // Create a consistent UID based on email
-        let sanitizedEmail = email.lowercased().trimmingCharacters(in: .whitespacesAndNewlines)
-        let data = Data(sanitizedEmail.utf8)
-        let hash = data.sha256()
-        return hash.hexString
-    }
+    // Note: Firebase database integration has been removed
+    // Subscription data is no longer uploaded to Firebase
     
     private func getCurrentPlan() -> String {
         // Determine the current subscription plan

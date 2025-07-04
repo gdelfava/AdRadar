@@ -7,8 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		7C0369962E17E41D00E0CE83 /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = 7C0369952E17E41D00E0CE83 /* FirebaseDatabase */; };
-		7C0369982E17E41D00E0CE83 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 7C0369972E17E41D00E0CE83 /* FirebaseFirestore */; };
 		7C03699C2E17E56D00E0CE83 /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = 7C03699B2E17E56D00E0CE83 /* FirebaseCore */; };
 		7C82EBA12DFAABDD001A8B8D /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 7C82EBA02DFAABDD001A8B8D /* GoogleSignIn */; };
 		7C82EBA32DFAABDD001A8B8D /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 7C82EBA22DFAABDD001A8B8D /* GoogleSignInSwift */; };
@@ -119,8 +117,6 @@
 			files = (
 				7C82EBA12DFAABDD001A8B8D /* GoogleSignIn in Frameworks */,
 				7C9EDAB62E13BA9A0046857F /* FirebaseAuth in Frameworks */,
-				7C0369962E17E41D00E0CE83 /* FirebaseDatabase in Frameworks */,
-				7C0369982E17E41D00E0CE83 /* FirebaseFirestore in Frameworks */,
 				7C03699C2E17E56D00E0CE83 /* FirebaseCore in Frameworks */,
 				7C82EBA32DFAABDD001A8B8D /* GoogleSignInSwift in Frameworks */,
 			);
@@ -204,8 +200,6 @@
 				7C82EBA02DFAABDD001A8B8D /* GoogleSignIn */,
 				7C82EBA22DFAABDD001A8B8D /* GoogleSignInSwift */,
 				7C9EDAB52E13BA9A0046857F /* FirebaseAuth */,
-				7C0369952E17E41D00E0CE83 /* FirebaseDatabase */,
-				7C0369972E17E41D00E0CE83 /* FirebaseFirestore */,
 				7C03699B2E17E56D00E0CE83 /* FirebaseCore */,
 			);
 			productName = AdRadar;
@@ -494,7 +488,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = AdRadar/AdRadar.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 20250704.7;
+				CURRENT_PROJECT_VERSION = 20250704.8;
 				DEVELOPMENT_TEAM = XB29ZAF479;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -511,7 +505,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.1.7;
+				MARKETING_VERSION = 2.1.8;
 				PRODUCT_BUNDLE_IDENTIFIER = com.delteqis.AdRadar;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -531,7 +525,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = AdRadar/AdRadar.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 20250704.7;
+				CURRENT_PROJECT_VERSION = 20250704.8;
 				DEVELOPMENT_TEAM = XB29ZAF479;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -548,7 +542,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.1.7;
+				MARKETING_VERSION = 2.1.8;
 				PRODUCT_BUNDLE_IDENTIFIER = com.delteqis.AdRadar;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -568,7 +562,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "AdRadarWatch Watch App/AdRadarWatch Watch App.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 20250704.7;
+				CURRENT_PROJECT_VERSION = 20250704.8;
 				DEVELOPMENT_TEAM = XB29ZAF479;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -580,7 +574,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.1.7;
+				MARKETING_VERSION = 2.1.8;
 				PRODUCT_BUNDLE_IDENTIFIER = com.delteqis.AdRadar.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
@@ -599,7 +593,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "AdRadarWatch Watch App/AdRadarWatch Watch App.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 20250704.7;
+				CURRENT_PROJECT_VERSION = 20250704.8;
 				DEVELOPMENT_TEAM = XB29ZAF479;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -611,7 +605,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.1.7;
+				MARKETING_VERSION = 2.1.8;
 				PRODUCT_BUNDLE_IDENTIFIER = com.delteqis.AdRadar.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
@@ -630,7 +624,7 @@
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CODE_SIGN_ENTITLEMENTS = AdRadarWidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 20250704.7;
+				CURRENT_PROJECT_VERSION = 20250704.8;
 				DEVELOPMENT_TEAM = XB29ZAF479;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = AdRadarWidget/Info.plist;
@@ -642,7 +636,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 2.1.7;
+				MARKETING_VERSION = 2.1.8;
 				PRODUCT_BUNDLE_IDENTIFIER = com.delteqis.AdRadar.AdRadarWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -663,7 +657,7 @@
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CODE_SIGN_ENTITLEMENTS = AdRadarWidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 20250704.7;
+				CURRENT_PROJECT_VERSION = 20250704.8;
 				DEVELOPMENT_TEAM = XB29ZAF479;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = AdRadarWidget/Info.plist;
@@ -675,7 +669,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 2.1.7;
+				MARKETING_VERSION = 2.1.8;
 				PRODUCT_BUNDLE_IDENTIFIER = com.delteqis.AdRadar.AdRadarWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -750,16 +744,6 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		7C0369952E17E41D00E0CE83 /* FirebaseDatabase */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 7C9EDAB42E13BA9A0046857F /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseDatabase;
-		};
-		7C0369972E17E41D00E0CE83 /* FirebaseFirestore */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 7C9EDAB42E13BA9A0046857F /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseFirestore;
-		};
 		7C03699B2E17E56D00E0CE83 /* FirebaseCore */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 7C9EDAB42E13BA9A0046857F /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
