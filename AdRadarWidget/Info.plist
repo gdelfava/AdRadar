@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>AppGroupIdentifier</key>
+	<string>group.com.delteqis.AdRadar</string>
+	<key>MinimumOSVersion</key>
+	<string>18.0</string>
+	<key>NSExtension</key>
+	<dict>
+		<key>NSExtensionPointIdentifier</key>
+		<string>com.apple.widgetkit-extension</string>
+	</dict>
+	<key>UIAppFonts</key>
+	<array>
+		<string>Sora-Light.ttf</string>
+		<string>Sora-Regular.ttf</string>
+		<string>Sora-Medium.ttf</string>
+		<string>Sora-SemiBold.ttf</string>
+		<string>Sora-Bold.ttf</string>
+	</array>
+</dict>
+</plist>

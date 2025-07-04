@@ -1,0 +1,786 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		7C0369962E17E41D00E0CE83 /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = 7C0369952E17E41D00E0CE83 /* FirebaseDatabase */; };
+		7C0369982E17E41D00E0CE83 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 7C0369972E17E41D00E0CE83 /* FirebaseFirestore */; };
+		7C03699C2E17E56D00E0CE83 /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = 7C03699B2E17E56D00E0CE83 /* FirebaseCore */; };
+		7C82EBA12DFAABDD001A8B8D /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 7C82EBA02DFAABDD001A8B8D /* GoogleSignIn */; };
+		7C82EBA32DFAABDD001A8B8D /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 7C82EBA22DFAABDD001A8B8D /* GoogleSignInSwift */; };
+		7C9EDAB62E13BA9A0046857F /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 7C9EDAB52E13BA9A0046857F /* FirebaseAuth */; };
+		7CBEB04F2E0A4D6A00D30323 /* AdRadarWatch Watch App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 7CBEB0452E0A4D6A00D30323 /* AdRadarWatch Watch App.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		7CEB39492DFAF6B1002884DB /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CEB39482DFAF6B1002884DB /* WidgetKit.framework */; };
+		7CEB394B2DFAF6B2002884DB /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CEB394A2DFAF6B2002884DB /* SwiftUI.framework */; };
+		7CEB395C2DFAF6B3002884DB /* AdRadarWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 7CEB39462DFAF6B1002884DB /* AdRadarWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		7CBEB04D2E0A4D6A00D30323 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7C82EB892DFAAA5F001A8B8D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 7CBEB0442E0A4D6A00D30323;
+			remoteInfo = "AdRadarWatch Watch App";
+		};
+		7CEB395A2DFAF6B3002884DB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7C82EB892DFAAA5F001A8B8D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 7CEB39452DFAF6B1002884DB;
+			remoteInfo = AdRadarWidgetExtension;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		7C0F3BC42E0965200016BA18 /* Embed Watch Content */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
+			dstSubfolderSpec = 16;
+			files = (
+				7CBEB04F2E0A4D6A00D30323 /* AdRadarWatch Watch App.app in Embed Watch Content */,
+			);
+			name = "Embed Watch Content";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7CEB39612DFAF6B3002884DB /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				7CEB395C2DFAF6B3002884DB /* AdRadarWidgetExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		7C5CD75F2E0E864600C1838E /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = Platforms/WatchOS.platform/Developer/SDKs/WatchOS11.5.sdk/System/Library/Frameworks/UserNotifications.framework; sourceTree = DEVELOPER_DIR; };
+		7C82EB912DFAAA5F001A8B8D /* AdRadar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AdRadar.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		7CBEB0452E0A4D6A00D30323 /* AdRadarWatch Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "AdRadarWatch Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		7CEB39462DFAF6B1002884DB /* AdRadarWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = AdRadarWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		7CEB39482DFAF6B1002884DB /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		7CEB394A2DFAF6B2002884DB /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+		7CEB39632DFAF942002884DB /* AdRadarWidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = AdRadarWidgetExtension.entitlements; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		7C82EBB72DFAB554001A8B8D /* Exceptions for "AdRadar" folder in "AdRadar" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 7C82EB902DFAAA5F001A8B8D /* AdRadar */;
+		};
+		7CEB39602DFAF6B3002884DB /* Exceptions for "AdRadarWidget" folder in "AdRadarWidgetExtension" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 7CEB39452DFAF6B1002884DB /* AdRadarWidgetExtension */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		7C82EB932DFAAA5F001A8B8D /* AdRadar */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				7C82EBB72DFAB554001A8B8D /* Exceptions for "AdRadar" folder in "AdRadar" target */,
+			);
+			path = AdRadar;
+			sourceTree = "<group>";
+		};
+		7CBEB0462E0A4D6A00D30323 /* AdRadarWatch Watch App */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "AdRadarWatch Watch App";
+			sourceTree = "<group>";
+		};
+		7CEB394C2DFAF6B2002884DB /* AdRadarWidget */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				7CEB39602DFAF6B3002884DB /* Exceptions for "AdRadarWidget" folder in "AdRadarWidgetExtension" target */,
+			);
+			path = AdRadarWidget;
+			sourceTree = "<group>";
+		};
+/* End PBXFileSystemSynchronizedRootGroup section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		7C82EB8E2DFAAA5F001A8B8D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7C82EBA12DFAABDD001A8B8D /* GoogleSignIn in Frameworks */,
+				7C9EDAB62E13BA9A0046857F /* FirebaseAuth in Frameworks */,
+				7C0369962E17E41D00E0CE83 /* FirebaseDatabase in Frameworks */,
+				7C0369982E17E41D00E0CE83 /* FirebaseFirestore in Frameworks */,
+				7C03699C2E17E56D00E0CE83 /* FirebaseCore in Frameworks */,
+				7C82EBA32DFAABDD001A8B8D /* GoogleSignInSwift in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7CBEB0422E0A4D6A00D30323 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7CEB39432DFAF6B1002884DB /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7CEB394B2DFAF6B2002884DB /* SwiftUI.framework in Frameworks */,
+				7CEB39492DFAF6B1002884DB /* WidgetKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		7C82EB882DFAAA5F001A8B8D = {
+			isa = PBXGroup;
+			children = (
+				7CEB39632DFAF942002884DB /* AdRadarWidgetExtension.entitlements */,
+				7C82EB932DFAAA5F001A8B8D /* AdRadar */,
+				7CEB394C2DFAF6B2002884DB /* AdRadarWidget */,
+				7CBEB0462E0A4D6A00D30323 /* AdRadarWatch Watch App */,
+				7CEB39472DFAF6B1002884DB /* Frameworks */,
+				7C82EB922DFAAA5F001A8B8D /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		7C82EB922DFAAA5F001A8B8D /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				7C82EB912DFAAA5F001A8B8D /* AdRadar.app */,
+				7CEB39462DFAF6B1002884DB /* AdRadarWidgetExtension.appex */,
+				7CBEB0452E0A4D6A00D30323 /* AdRadarWatch Watch App.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		7CEB39472DFAF6B1002884DB /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				7C5CD75F2E0E864600C1838E /* UserNotifications.framework */,
+				7CEB39482DFAF6B1002884DB /* WidgetKit.framework */,
+				7CEB394A2DFAF6B2002884DB /* SwiftUI.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		7C82EB902DFAAA5F001A8B8D /* AdRadar */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7C82EB9C2DFAAA5F001A8B8D /* Build configuration list for PBXNativeTarget "AdRadar" */;
+			buildPhases = (
+				7C82EB8D2DFAAA5F001A8B8D /* Sources */,
+				7C82EB8E2DFAAA5F001A8B8D /* Frameworks */,
+				7C82EB8F2DFAAA5F001A8B8D /* Resources */,
+				7CEB39612DFAF6B3002884DB /* Embed Foundation Extensions */,
+				7C0F3BC42E0965200016BA18 /* Embed Watch Content */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				7CEB395B2DFAF6B3002884DB /* PBXTargetDependency */,
+				7CBEB04E2E0A4D6A00D30323 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				7C82EB932DFAAA5F001A8B8D /* AdRadar */,
+			);
+			name = AdRadar;
+			packageProductDependencies = (
+				7C82EBA02DFAABDD001A8B8D /* GoogleSignIn */,
+				7C82EBA22DFAABDD001A8B8D /* GoogleSignInSwift */,
+				7C9EDAB52E13BA9A0046857F /* FirebaseAuth */,
+				7C0369952E17E41D00E0CE83 /* FirebaseDatabase */,
+				7C0369972E17E41D00E0CE83 /* FirebaseFirestore */,
+				7C03699B2E17E56D00E0CE83 /* FirebaseCore */,
+			);
+			productName = AdRadar;
+			productReference = 7C82EB912DFAAA5F001A8B8D /* AdRadar.app */;
+			productType = "com.apple.product-type.application";
+		};
+		7CBEB0442E0A4D6A00D30323 /* AdRadarWatch Watch App */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7CBEB0522E0A4D6A00D30323 /* Build configuration list for PBXNativeTarget "AdRadarWatch Watch App" */;
+			buildPhases = (
+				7CBEB0412E0A4D6A00D30323 /* Sources */,
+				7CBEB0422E0A4D6A00D30323 /* Frameworks */,
+				7CBEB0432E0A4D6A00D30323 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				7CBEB0462E0A4D6A00D30323 /* AdRadarWatch Watch App */,
+			);
+			name = "AdRadarWatch Watch App";
+			packageProductDependencies = (
+			);
+			productName = "AdRadarWatch Watch App";
+			productReference = 7CBEB0452E0A4D6A00D30323 /* AdRadarWatch Watch App.app */;
+			productType = "com.apple.product-type.application";
+		};
+		7CEB39452DFAF6B1002884DB /* AdRadarWidgetExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7CEB395D2DFAF6B3002884DB /* Build configuration list for PBXNativeTarget "AdRadarWidgetExtension" */;
+			buildPhases = (
+				7CEB39422DFAF6B1002884DB /* Sources */,
+				7CEB39432DFAF6B1002884DB /* Frameworks */,
+				7CEB39442DFAF6B1002884DB /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				7CEB394C2DFAF6B2002884DB /* AdRadarWidget */,
+			);
+			name = AdRadarWidgetExtension;
+			packageProductDependencies = (
+			);
+			productName = AdRadarWidgetExtension;
+			productReference = 7CEB39462DFAF6B1002884DB /* AdRadarWidgetExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		7C82EB892DFAAA5F001A8B8D /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1640;
+				LastUpgradeCheck = 2600;
+				TargetAttributes = {
+					7C82EB902DFAAA5F001A8B8D = {
+						CreatedOnToolsVersion = 16.4;
+					};
+					7CBEB0442E0A4D6A00D30323 = {
+						CreatedOnToolsVersion = 16.4;
+					};
+					7CEB39452DFAF6B1002884DB = {
+						CreatedOnToolsVersion = 16.4;
+					};
+				};
+			};
+			buildConfigurationList = 7C82EB8C2DFAAA5F001A8B8D /* Build configuration list for PBXProject "AdRadar" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 7C82EB882DFAAA5F001A8B8D;
+			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				7C82EB9F2DFAABDD001A8B8D /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
+				7C9EDAB42E13BA9A0046857F /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+			);
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 7C82EB922DFAAA5F001A8B8D /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				7C82EB902DFAAA5F001A8B8D /* AdRadar */,
+				7CEB39452DFAF6B1002884DB /* AdRadarWidgetExtension */,
+				7CBEB0442E0A4D6A00D30323 /* AdRadarWatch Watch App */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		7C82EB8F2DFAAA5F001A8B8D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7CBEB0432E0A4D6A00D30323 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7CEB39442DFAF6B1002884DB /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		7C82EB8D2DFAAA5F001A8B8D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7CBEB0412E0A4D6A00D30323 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7CEB39422DFAF6B1002884DB /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		7CBEB04E2E0A4D6A00D30323 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 7CBEB0442E0A4D6A00D30323 /* AdRadarWatch Watch App */;
+			targetProxy = 7CBEB04D2E0A4D6A00D30323 /* PBXContainerItemProxy */;
+		};
+		7CEB395B2DFAF6B3002884DB /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 7CEB39452DFAF6B1002884DB /* AdRadarWidgetExtension */;
+			targetProxy = 7CEB395A2DFAF6B3002884DB /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		7C82EB9A2DFAAA5F001A8B8D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = XB29ZAF479;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		7C82EB9B2DFAAA5F001A8B8D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = XB29ZAF479;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		7C82EB9D2DFAAA5F001A8B8D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = AdRadar/AdRadar.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 20250704.4;
+				DEVELOPMENT_TEAM = XB29ZAF479;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = AdRadar/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = AdRadar;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 2.1.6;
+				PRODUCT_BUNDLE_IDENTIFIER = com.delteqis.AdRadar;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		7C82EB9E2DFAAA5F001A8B8D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = AdRadar/AdRadar.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 20250704.4;
+				DEVELOPMENT_TEAM = XB29ZAF479;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = AdRadar/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = AdRadar;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 2.1.6;
+				PRODUCT_BUNDLE_IDENTIFIER = com.delteqis.AdRadar;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+		7CBEB0502E0A4D6A00D30323 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "AdRadarWatch Watch App/AdRadarWatch Watch App.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 20250704.1;
+				DEVELOPMENT_TEAM = XB29ZAF479;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "AdRadarWatch-Watch-App-Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = AdRadar;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = com.delteqis.AdRadar;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 2.1.6;
+				PRODUCT_BUNDLE_IDENTIFIER = com.delteqis.AdRadar.watchkitapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 11.5;
+			};
+			name = Debug;
+		};
+		7CBEB0512E0A4D6A00D30323 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "AdRadarWatch Watch App/AdRadarWatch Watch App.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 20250704.1;
+				DEVELOPMENT_TEAM = XB29ZAF479;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "AdRadarWatch-Watch-App-Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = AdRadar;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = com.delteqis.AdRadar;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 2.1.6;
+				PRODUCT_BUNDLE_IDENTIFIER = com.delteqis.AdRadar.watchkitapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 11.5;
+			};
+			name = Release;
+		};
+		7CEB395E2DFAF6B3002884DB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = AdRadarWidgetExtension.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 20250704.4;
+				DEVELOPMENT_TEAM = XB29ZAF479;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = AdRadarWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = AdRadarWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 2.1.6;
+				PRODUCT_BUNDLE_IDENTIFIER = com.delteqis.AdRadar.AdRadarWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		7CEB395F2DFAF6B3002884DB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = AdRadarWidgetExtension.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 20250704.4;
+				DEVELOPMENT_TEAM = XB29ZAF479;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = AdRadarWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = AdRadarWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 2.1.6;
+				PRODUCT_BUNDLE_IDENTIFIER = com.delteqis.AdRadar.AdRadarWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		7C82EB8C2DFAAA5F001A8B8D /* Build configuration list for PBXProject "AdRadar" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7C82EB9A2DFAAA5F001A8B8D /* Debug */,
+				7C82EB9B2DFAAA5F001A8B8D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		7C82EB9C2DFAAA5F001A8B8D /* Build configuration list for PBXNativeTarget "AdRadar" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7C82EB9D2DFAAA5F001A8B8D /* Debug */,
+				7C82EB9E2DFAAA5F001A8B8D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		7CBEB0522E0A4D6A00D30323 /* Build configuration list for PBXNativeTarget "AdRadarWatch Watch App" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7CBEB0502E0A4D6A00D30323 /* Debug */,
+				7CBEB0512E0A4D6A00D30323 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		7CEB395D2DFAF6B3002884DB /* Build configuration list for PBXNativeTarget "AdRadarWidgetExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7CEB395E2DFAF6B3002884DB /* Debug */,
+				7CEB395F2DFAF6B3002884DB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		7C82EB9F2DFAABDD001A8B8D /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/google/GoogleSignIn-iOS";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 8.0.0;
+			};
+		};
+		7C9EDAB42E13BA9A0046857F /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 11.15.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		7C0369952E17E41D00E0CE83 /* FirebaseDatabase */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7C9EDAB42E13BA9A0046857F /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseDatabase;
+		};
+		7C0369972E17E41D00E0CE83 /* FirebaseFirestore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7C9EDAB42E13BA9A0046857F /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestore;
+		};
+		7C03699B2E17E56D00E0CE83 /* FirebaseCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7C9EDAB42E13BA9A0046857F /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseCore;
+		};
+		7C82EBA02DFAABDD001A8B8D /* GoogleSignIn */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7C82EB9F2DFAABDD001A8B8D /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
+			productName = GoogleSignIn;
+		};
+		7C82EBA22DFAABDD001A8B8D /* GoogleSignInSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7C82EB9F2DFAABDD001A8B8D /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
+			productName = GoogleSignInSwift;
+		};
+		7C9EDAB52E13BA9A0046857F /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7C9EDAB42E13BA9A0046857F /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = 7C82EB892DFAAA5F001A8B8D /* Project object */;
+}

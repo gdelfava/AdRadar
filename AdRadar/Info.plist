@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>AppGroupIdentifier</key>
+	<string>group.com.delteqis.AdRadar</string>
+	<key>BGTaskSchedulerPermittedIdentifiers</key>
+	<array>
+		<string>com.delteqis.AdRadar.refresh</string>
+		<string>com.delteqis.AdRadar.processing</string>
+	</array>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.googleusercontent.apps.600528459871-mp7s9ru90tjnkuoc7dbvvr4kfmf7opfc</string>
+			</array>
+		</dict>
+	</array>
+	<key>GIDClientID</key>
+	<string>600528459871-mp7s9ru90tjnkuoc7dbvvr4kfmf7opfc.apps.googleusercontent.com</string>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>google</string>
+	</array>
+	<key>UIAppFonts</key>
+	<array>
+		<string>Sora-Light.ttf</string>
+		<string>Sora-Regular.ttf</string>
+		<string>Sora-Medium.ttf</string>
+		<string>Sora-SemiBold.ttf</string>
+		<string>Sora-Bold.ttf</string>
+	</array>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>background-processing</string>
+		<string>background-fetch</string>
+	</array>
+	<key>BackgroundTaskIdentifiers</key>
+	<dict>
+		<key>refresh</key>
+		<string>com.delteqis.AdRadar.refresh</string>
+		<key>processing</key>
+		<string>com.delteqis.AdRadar.processing</string>
+	</dict>
+</dict>
+</plist>

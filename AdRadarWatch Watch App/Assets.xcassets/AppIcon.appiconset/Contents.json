@@ -1,0 +1,14 @@
+{
+  "images" : [
+    {
+      "filename" : "AdRadar-App-Icon-Final-Store-Sub-v5.jpg",
+      "idiom" : "universal",
+      "platform" : "watchos",
+      "size" : "1024x1024"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

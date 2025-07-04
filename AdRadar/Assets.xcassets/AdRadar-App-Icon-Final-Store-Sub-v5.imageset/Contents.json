@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "AdRadar-App-Icon-Final-Store-Sub-v5.jpg",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

@@ -1,0 +1,148 @@
+{
+  "appPolicies" : {
+    "eula" : "",
+    "policies" : [
+      {
+        "locale" : "en_US",
+        "policyText" : "",
+        "policyURL" : ""
+      }
+    ]
+  },
+  "identifier" : "AdRadarStoreKitConfig",
+  "nonRenewingSubscriptions" : [
+
+  ],
+  "products" : [
+
+  ],
+  "settings" : {
+    "_billingGracePeriodEnabled" : true,
+    "_failTransactionsEnabled" : false,
+    "_locale" : "en_GB",
+    "_renewalBillingIssuesEnabled" : true,
+    "_storefront" : "ZAF",
+    "_storeKitErrors" : [
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Load Products"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Purchase"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Verification"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "App Store Sync"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Subscription Status"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "App Transaction"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Manage Subscriptions Sheet"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Refund Request Sheet"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Offer Code Redeem Sheet"
+      }
+    ]
+  },
+  "subscriptionGroups" : [
+    {
+      "id" : "21521172",
+      "localizations" : [
+        {
+          "description" : "Premium features for AdRadar",
+          "displayName" : "AdRadar Premium",
+          "locale" : "en_US"
+        }
+      ],
+      "name" : "AdRadar Pro Access",
+      "subscriptions" : [
+        {
+          "adHocOffers" : [
+
+          ],
+          "codeOffers" : [
+
+          ],
+          "displayPrice" : "19.99",
+          "familyShareable" : false,
+          "groupNumber" : 1,
+          "internalID" : "6736166448",
+          "introductoryOffer" : null,
+          "localizations" : [
+            {
+              "description" : "Monthly subscription for premium features",
+              "displayName" : "Premium Monthly",
+              "locale" : "en_US"
+            }
+          ],
+          "productID" : "com.delteqis.adradar.pro_monthly_sub",
+          "recurringSubscriptionPeriod" : "P1M",
+          "referenceName" : "Pro Monthly Subscription",
+          "subscriptionGroupID" : "21521172",
+          "type" : "RecurringSubscription",
+          "winbackOffers" : [
+
+          ]
+        },
+        {
+          "adHocOffers" : [
+
+          ],
+          "codeOffers" : [
+
+          ],
+          "displayPrice" : "199.99",
+          "familyShareable" : false,
+          "groupNumber" : 2,
+          "internalID" : "6736166449",
+          "introductoryOffer" : null,
+          "localizations" : [
+            {
+              "description" : "Yearly subscription for premium features at a discounted rate",
+              "displayName" : "Premium Yearly",
+              "locale" : "en_US"
+            }
+          ],
+          "productID" : "com.delteqis.adradar.pro_yearly_sub",
+          "recurringSubscriptionPeriod" : "P1Y",
+          "referenceName" : "Pro Yearly Subscription",
+          "subscriptionGroupID" : "21521172",
+          "type" : "RecurringSubscription",
+          "winbackOffers" : [
+
+          ]
+        }
+      ]
+    }
+  ],
+  "version" : {
+    "major" : 4,
+    "minor" : 0
+  }
+}
