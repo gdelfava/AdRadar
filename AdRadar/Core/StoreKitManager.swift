@@ -154,20 +154,27 @@ public class StoreKitManager: ObservableObject {
             do {
                 let transaction = try checkVerified(result)
                 
+                print("📱 [StoreKit] Found transaction: \(transaction.productID), revoked: \(transaction.revocationDate != nil)")
+                
                 switch transaction.productType {
                 case .nonConsumable:
                     purchasedProducts.insert(transaction.productID)
+                    print("📱 [StoreKit] Added non-consumable: \(transaction.productID)")
                 default:
                     // For subscriptions and other types, check if not revoked
                     if transaction.revocationDate == nil {
                         purchasedProducts.insert(transaction.productID)
+                        print("📱 [StoreKit] Added subscription: \(transaction.productID)")
+                    } else {
+                        print("📱 [StoreKit] Skipped revoked subscription: \(transaction.productID)")
                     }
                 }
             } catch {
-                print("Failed to verify transaction: \(error)")
+                print("❌ [StoreKit] Failed to verify transaction: \(error)")
             }
         }
         
+        print("📱 [StoreKit] Final purchased products: \(purchasedProducts)")
         self.purchasedProductIDs = purchasedProducts
     }
     
@@ -214,12 +221,26 @@ public class StoreKitManager: ObservableObject {
     // MARK: - Restore Purchases
     
     func restorePurchases() async {
+        isLoading = true
+        error = nil
+        
         do {
+            // Sync with App Store to get latest transaction status
             try await AppStore.sync()
+            
+            // Update purchased products from current entitlements
             await updatePurchasedProducts()
+            
+            // Update subscription status
+            await updateSubscriptionStatus()
+            
+            print("✅ [StoreKit] Restore purchases completed successfully")
         } catch {
             self.error = .systemError(error)
+            print("❌ [StoreKit] Restore purchases failed: \(error.localizedDescription)")
         }
+        
+        isLoading = false
     }
     
     // MARK: - Helper Methods

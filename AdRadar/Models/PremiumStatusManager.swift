@@ -12,6 +12,7 @@ class PremiumStatusManager: ObservableObject {
     @Published var hasRemovedAds: Bool = false
     @Published var premiumFeatures: Set<PremiumFeature> = []
     @Published var subscriptionStatus: SubscriptionStatus?
+    @Published var isLoading: Bool = false
     
     private let storeKitManager = StoreKitManager.shared
     private var cancellables = Set<AnyCancellable>()
@@ -162,7 +163,7 @@ class PremiumStatusManager: ObservableObject {
             features = Set(PremiumFeature.allCases)
         } else {
             // Check individual purchases
-            if storeKitManager.isPurchased("com.delteqis.adradar.pro_monthly") {
+            if storeKitManager.isPurchased("com.delteqis.adradar.pro_monthly_sub") {
                 features.insert(.adFree)
             }
         }
@@ -224,28 +225,30 @@ class PremiumStatusManager: ObservableObject {
     // MARK: - Purchase Methods
     
     func purchasePremiumMonthly() async throws {
-        guard let product = storeKitManager.products.first(where: { $0.id == "com.delteqis.adradar.premium_monthly_sub" }) else {
+        guard let product = storeKitManager.products.first(where: { $0.id == "com.delteqis.adradar.pro_monthly_sub" }) else {
             throw StoreKitManager.StoreKitError.productNotAvailable
         }
         try await storeKitManager.purchase(product)
     }
     
     func purchasePremiumYearly() async throws {
-        guard let product = storeKitManager.products.first(where: { $0.id == "com.delteqis.adradar.premium_yearly_sub" }) else {
+        guard let product = storeKitManager.products.first(where: { $0.id == "com.delteqis.adradar.pro_yearly_sub" }) else {
             throw StoreKitManager.StoreKitError.productNotAvailable
         }
         try await storeKitManager.purchase(product)
     }
     
     func purchaseRemoveAds() async throws {
-        guard let product = storeKitManager.products.first(where: { $0.id == "com.delteqis.adradar.pro_monthly" }) else {
+        guard let product = storeKitManager.products.first(where: { $0.id == "com.delteqis.adradar.pro_monthly_sub" }) else {
             throw StoreKitManager.StoreKitError.productNotAvailable
         }
         try await storeKitManager.purchase(product)
     }
     
     func restorePurchases() async {
+        isLoading = true
         await storeKitManager.restorePurchases()
+        isLoading = false
     }
     
     // MARK: - Subscription Management

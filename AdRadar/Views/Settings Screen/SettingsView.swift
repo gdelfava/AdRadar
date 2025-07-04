@@ -538,9 +538,15 @@ struct SettingsView: View {
                                                     .fill(Color.orange.opacity(0.1))
                                                     .frame(width: 40, height: 40)
                                                 
-                                                Image(systemName: "arrow.clockwise")
-                                                    .font(.system(size: 18, weight: .medium))
-                                                    .foregroundColor(.orange)
+                                                if premiumStatusManager.isLoading {
+                                                    ProgressView()
+                                                        .scaleEffect(0.8)
+                                                        .frame(width: 20, height: 20)
+                                                } else {
+                                                    Image(systemName: "arrow.clockwise")
+                                                        .font(.system(size: 18, weight: .medium))
+                                                        .foregroundColor(.orange)
+                                                }
                                             }
                                             
                                             VStack(alignment: .leading, spacing: 2) {
@@ -566,6 +572,7 @@ struct SettingsView: View {
                                         .contentShape(Rectangle())
                                     }
                                     .buttonStyle(PlainButtonStyle())
+                                    .disabled(premiumStatusManager.isLoading)
                                 }
                             }
                             .background(Color(.secondarySystemGroupedBackground))
@@ -1056,8 +1063,6 @@ struct ShareSheet: UIViewControllerRepresentable {
     
     func updateUIViewController(_ uiViewController: UIActivityViewController, context: Context) {}
 }
-
-
 
 struct WidgetSupportSheet: View {
     @Environment(\.presentationMode) var presentationMode

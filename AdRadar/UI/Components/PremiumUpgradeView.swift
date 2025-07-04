@@ -86,6 +86,16 @@ struct PremiumUpgradeView: View {
                             .padding(.horizontal, 24)
                             .background(Color.accentColor.opacity(0.1))
                             .cornerRadius(12)
+                            .disabled(storeManager.isLoading)
+                            .overlay(
+                                Group {
+                                    if storeManager.isLoading {
+                                        ProgressView()
+                                            .scaleEffect(0.8)
+                                            .frame(width: 20, height: 20)
+                                    }
+                                }
+                            )
                             
                             Text("Restore your previous purchases")
                                 .soraCaption()
@@ -112,7 +122,11 @@ struct PremiumUpgradeView: View {
             .alert("Restore Complete", isPresented: $showingRestoreAlert) {
                 Button("OK") { }
             } message: {
-                Text("Your purchases have been restored.")
+                if storeManager.error != nil {
+                    Text("Failed to restore purchases. Please try again.")
+                } else {
+                    Text("Your purchases have been restored successfully.")
+                }
             }
             .alert("Purchase Error", isPresented: .constant(storeManager.error != nil)) {
                 Button("OK") {
