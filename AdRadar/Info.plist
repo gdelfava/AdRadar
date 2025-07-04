@@ -32,11 +32,6 @@
 		<string>Sora-SemiBold.ttf</string>
 		<string>Sora-Bold.ttf</string>
 	</array>
-	<key>UIBackgroundModes</key>
-	<array>
-		<string>background-processing</string>
-		<string>background-fetch</string>
-	</array>
 	<key>BackgroundTaskIdentifiers</key>
 	<dict>
 		<key>refresh</key>

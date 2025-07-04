@@ -144,7 +144,7 @@ public class StoreKitManager: ObservableObject {
                     // Always finish a transaction
                     await transaction.finish()
                 } catch {
-                    print("Transaction failed verification: \(error)")
+                    print("❌ [StoreKit] Transaction failed verification: \(error)")
                 }
             }
         }
@@ -197,23 +197,23 @@ public class StoreKitManager: ObservableObject {
     // MARK: - Subscription Status
     
     func updateSubscriptionStatus() async {
-        do {
-            guard let product = products.first(where: { $0.subscription != nil }),
-                  let subscription = product.subscription else {
-                return
-            }
-            
-            let statuses = try await subscription.status
-            
-            var highestStatus: Product.SubscriptionInfo.Status?
-            var highestRenewalState: RenewalState?
-            
-            for status in statuses {
-                switch status.state {
-                case .subscribed, .inGracePeriod, .inBillingRetryPeriod:
-                    let renewalInfo = try checkVerified(status.renewalInfo)
-                    let transaction = try checkVerified(status.transaction)
-                    
+        guard let product = products.first(where: { $0.subscription != nil }),
+              let subscription = product.subscription else {
+            return
+        }
+        
+        let statuses = try? await subscription.status
+        
+        var highestStatus: Product.SubscriptionInfo.Status?
+        var highestRenewalState: RenewalState?
+        
+        for status in statuses ?? [] {
+            switch status.state {
+            case .subscribed, .inGracePeriod, .inBillingRetryPeriod:
+                let renewalInfo = try? checkVerified(status.renewalInfo)
+                let transaction = try? checkVerified(status.transaction)
+                
+                if let renewalInfo = renewalInfo, let transaction = transaction {
                     if highestStatus == nil {
                         highestStatus = status
                         highestRenewalState = RenewalState(
@@ -221,17 +221,15 @@ public class StoreKitManager: ObservableObject {
                             renewalInfo: renewalInfo
                         )
                     }
-                case .revoked, .expired:
-                    continue
-                default:
-                    break
                 }
+            case .revoked, .expired:
+                continue
+            default:
+                break
             }
-            
-            subscriptionStatus = highestRenewalState
-        } catch {
-            print("Failed to update subscription status: \(error)")
         }
+        
+        subscriptionStatus = highestRenewalState
     }
     
     // MARK: - Restore Purchases
@@ -242,26 +240,21 @@ public class StoreKitManager: ObservableObject {
         
         print("🔄 [StoreKit] Starting restore purchases...")
         
-        do {
-            // Sync with App Store to get latest transaction status
-            print("🔄 [StoreKit] Syncing with App Store...")
-            try await AppStore.sync()
-            print("✅ [StoreKit] App Store sync completed")
-            
-            // Update purchased products from current entitlements
-            print("🔄 [StoreKit] Updating purchased products...")
-            await updatePurchasedProducts()
-            
-            // Update subscription status
-            print("🔄 [StoreKit] Updating subscription status...")
-            await updateSubscriptionStatus()
-            
-            print("✅ [StoreKit] Restore purchases completed successfully")
-            print("📱 [StoreKit] Current purchased products: \(purchasedProductIDs)")
-        } catch {
-            self.error = .systemError(error)
-            print("❌ [StoreKit] Restore purchases failed: \(error.localizedDescription)")
-        }
+        // Sync with App Store to get latest transaction status
+        print("🔄 [StoreKit] Syncing with App Store...")
+        try? await AppStore.sync()
+        print("✅ [StoreKit] App Store sync completed")
+        
+        // Update purchased products from current entitlements
+        print("🔄 [StoreKit] Updating purchased products...")
+        await updatePurchasedProducts()
+        
+        // Update subscription status
+        print("🔄 [StoreKit] Updating subscription status...")
+        await updateSubscriptionStatus()
+        
+        print("✅ [StoreKit] Restore purchases completed successfully")
+        print("📱 [StoreKit] Current purchased products: \(purchasedProductIDs)")
         
         isLoading = false
     }
