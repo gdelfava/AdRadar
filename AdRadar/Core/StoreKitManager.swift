@@ -67,12 +67,19 @@ public class StoreKitManager: ObservableObject {
         isLoading = true
         error = nil
         
+        print("🔄 [StoreKit] Loading products for identifiers: \(productIdentifiers)")
+        
         do {
             let storeProducts = try await Product.products(for: productIdentifiers)
             products = storeProducts.sorted { $0.price < $1.price }
+            
+            print("✅ [StoreKit] Successfully loaded \(products.count) products:")
+            for product in products {
+                print("📱 [StoreKit] - \(product.id): \(product.displayName) (\(product.displayPrice))")
+            }
         } catch {
             self.error = .systemError(error)
-            print("Failed to load products: \(error)")
+            print("❌ [StoreKit] Failed to load products: \(error)")
         }
         
         isLoading = false
@@ -149,12 +156,19 @@ public class StoreKitManager: ObservableObject {
     func updatePurchasedProducts() async {
         var purchasedProducts: Set<String> = []
         
+        print("🔄 [StoreKit] Starting updatePurchasedProducts...")
+        
         // Iterate through all unfinished transactions
+        var transactionCount = 0
         for await result in Transaction.currentEntitlements {
+            transactionCount += 1
+            print("📱 [StoreKit] Processing transaction \(transactionCount): \(result)")
+            
             do {
                 let transaction = try checkVerified(result)
                 
                 print("📱 [StoreKit] Found transaction: \(transaction.productID), revoked: \(transaction.revocationDate != nil)")
+                print("📱 [StoreKit] Transaction details: type=\(transaction.productType), expiration=\(transaction.expirationDate?.description ?? "none")")
                 
                 switch transaction.productType {
                 case .nonConsumable:
@@ -171,9 +185,11 @@ public class StoreKitManager: ObservableObject {
                 }
             } catch {
                 print("❌ [StoreKit] Failed to verify transaction: \(error)")
+                print("❌ [StoreKit] Transaction verification error details: \(error.localizedDescription)")
             }
         }
         
+        print("📱 [StoreKit] Processed \(transactionCount) transactions")
         print("📱 [StoreKit] Final purchased products: \(purchasedProducts)")
         self.purchasedProductIDs = purchasedProducts
     }
@@ -224,17 +240,24 @@ public class StoreKitManager: ObservableObject {
         isLoading = true
         error = nil
         
+        print("🔄 [StoreKit] Starting restore purchases...")
+        
         do {
             // Sync with App Store to get latest transaction status
+            print("🔄 [StoreKit] Syncing with App Store...")
             try await AppStore.sync()
+            print("✅ [StoreKit] App Store sync completed")
             
             // Update purchased products from current entitlements
+            print("🔄 [StoreKit] Updating purchased products...")
             await updatePurchasedProducts()
             
             // Update subscription status
+            print("🔄 [StoreKit] Updating subscription status...")
             await updateSubscriptionStatus()
             
             print("✅ [StoreKit] Restore purchases completed successfully")
+            print("📱 [StoreKit] Current purchased products: \(purchasedProductIDs)")
         } catch {
             self.error = .systemError(error)
             print("❌ [StoreKit] Restore purchases failed: \(error.localizedDescription)")

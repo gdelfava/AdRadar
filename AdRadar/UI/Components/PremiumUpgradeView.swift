@@ -9,6 +9,7 @@ struct PremiumUpgradeView: View {
     @State private var selectedProductID: String?
     @State private var animateFloatingElements = false
     @State private var cardAppearances: [Bool] = Array(repeating: false, count: 4)
+    @State private var showingPurchaseSuccess = false
     
     var body: some View {
         NavigationView {
@@ -105,6 +106,31 @@ struct PremiumUpgradeView: View {
                         .padding(.horizontal, 20)
                         .padding(.top, 32)
                         .padding(.bottom, 40)
+                        
+                        // SUCCESS MESSAGE (shown after successful purchase)
+                        if storeManager.purchasedProductIDs.count > 0 {
+                            VStack(spacing: 12) {
+                                HStack {
+                                    Image(systemName: "checkmark.circle.fill")
+                                        .foregroundColor(.green)
+                                    Text("Premium Active!")
+                                        .soraBody()
+                                        .fontWeight(.medium)
+                                        .foregroundColor(.green)
+                                }
+                                
+                                Text("Your premium features are now unlocked")
+                                    .soraCaption()
+                                    .foregroundColor(.secondary)
+                                    .multilineTextAlignment(.center)
+                            }
+                            .padding(.horizontal, 20)
+                            .padding(.vertical, 16)
+                            .background(Color.green.opacity(0.1))
+                            .cornerRadius(12)
+                            .padding(.horizontal, 20)
+                            .padding(.bottom, 20)
+                        }
                     }
                 }
             }
@@ -134,6 +160,11 @@ struct PremiumUpgradeView: View {
                 }
             } message: {
                 Text(storeManager.error?.errorDescription ?? "An unknown error occurred")
+            }
+            .alert("Purchase Successful!", isPresented: $showingPurchaseSuccess) {
+                Button("Continue") { }
+            } message: {
+                Text("Your premium subscription has been activated successfully!")
             }
         }
         .onAppear {
@@ -284,6 +315,7 @@ struct PremiumUpgradeView: View {
         
         do {
             try await storeManager.purchase(product)
+            showingPurchaseSuccess = true
         } catch StoreKitManager.StoreKitError.userCancelled {
             // User cancelled, do nothing
         } catch {

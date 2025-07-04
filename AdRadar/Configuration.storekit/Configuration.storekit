@@ -141,6 +141,24 @@
       ]
     }
   ],
+  "transactions" : [
+    {
+      "id" : "test-transaction-1",
+      "productID" : "com.delteqis.adradar.pro_monthly_sub",
+      "purchaseDate" : "2024-01-15T10:00:00Z",
+      "expirationDate" : "2024-12-15T10:00:00Z",
+      "status" : "subscribed",
+      "type" : "RecurringSubscription"
+    },
+    {
+      "id" : "test-transaction-2",
+      "productID" : "com.delteqis.adradar.pro_yearly_sub",
+      "purchaseDate" : "2024-01-01T10:00:00Z",
+      "expirationDate" : "2025-01-01T10:00:00Z",
+      "status" : "subscribed",
+      "type" : "RecurringSubscription"
+    }
+  ],
   "version" : {
     "major" : 4,
     "minor" : 0
