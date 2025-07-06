@@ -81,51 +81,8 @@ struct TargetingView: View {
                     .soraBody()
                     .padding()
                 Spacer()
-            } else if let error = viewModel.error {
-                VStack(spacing: 16) {
-                    Image(systemName: "target")
-                        .font(.system(size: 48))
-                        .foregroundColor(.gray)
-                    
-                    Text("Unable to Load Data")
-                        .soraHeadline()
-                        .foregroundColor(.gray)
-                    
-                    Text(error)
-                        .soraBody()
-                        .foregroundColor(.gray)
-                        .multilineTextAlignment(.center)
-                        .padding(.horizontal)
-                    
-                    Button("Try Again") {
-                        Task {
-                            await viewModel.fetchTargetingData()
-                        }
-                    }
-                    .soraBody()
-                    .padding()
-                    .background(Color.accentColor)
-                    .foregroundColor(.white)
-                    .cornerRadius(10)
-                }
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-            } else if viewModel.targetingData.isEmpty {
-                VStack(spacing: 16) {
-                    Image(systemName: "target")
-                        .font(.system(size: 48))
-                        .foregroundColor(.gray)
-                    
-                    Text("No Targeting Data")
-                        .soraHeadline()
-                        .foregroundColor(.gray)
-                    
-                    Text("No targeting data available for the selected time period.")
-                        .soraBody()
-                        .foregroundColor(.gray)
-                        .multilineTextAlignment(.center)
-                        .padding(.horizontal)
-                }
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
+            } else if viewModel.showEmptyState {
+                emptyStateView
             } else {
                 targetingScrollView
             }
@@ -197,6 +154,12 @@ struct TargetingView: View {
         }
     }
     
+    private var emptyStateView: some View {
+        TargetingEmptyStateView(message: viewModel.emptyStateMessage)
+            .padding(.horizontal, 20)
+            .padding(.vertical, 100)
+    }
+    
     private var leadingToolbarItem: some ToolbarContent {
         ToolbarItem(placement: .navigationBarLeading) {
             Button("Done") {
@@ -264,4 +227,85 @@ struct TargetingView: View {
 
 #Preview {
     TargetingView(showSlideOverMenu: .constant(false), selectedTab: .constant(0))
+}
+
+// MARK: - Targeting Empty State View
+
+struct TargetingEmptyStateView: View {
+    let message: String?
+    @Environment(\.colorScheme) private var colorScheme
+    
+    var body: some View {
+        VStack(spacing: 24) {
+            // Enhanced icon with gradient background
+            ZStack {
+                RoundedRectangle(cornerRadius: 20, style: .continuous)
+                    .fill(
+                        LinearGradient(
+                            gradient: Gradient(colors: [
+                                Color.pink.opacity(0.15),
+                                Color.pink.opacity(0.08)
+                            ]),
+                            startPoint: .topLeading,
+                            endPoint: .bottomTrailing
+                        )
+                    )
+                    .frame(width: 80, height: 80)
+                
+                Image(systemName: "target")
+                    .font(.system(size: 32, weight: .medium))
+                    .foregroundColor(.pink)
+            }
+            
+            // Enhanced content
+            VStack(spacing: 12) {
+                Text("No Targeting Data Available")
+                    .soraHeadline()
+                    .foregroundColor(.primary)
+                    .multilineTextAlignment(.center)
+                    .padding(.horizontal, 8)
+                
+                Text(message ?? "No targeting data available for the selected time period. Try a different date range or ensure your ads are running.")
+                    .soraCaption()
+                    .foregroundColor(.secondary)
+                    .multilineTextAlignment(.center)
+            }
+        }
+        .padding(24)
+        .frame(maxWidth: .infinity)
+        .background(
+            ZStack {
+                // Base gradient background
+                LinearGradient(
+                    gradient: Gradient(stops: [
+                        .init(color: Color.pink.opacity(0.08), location: 0),
+                        .init(color: Color.pink.opacity(0.04), location: 0.5),
+                        .init(color: Color.pink.opacity(0.02), location: 1)
+                    ]),
+                    startPoint: .topLeading,
+                    endPoint: .bottomTrailing
+                )
+                
+                // Pattern overlay for visual interest
+                PatternOverlay(color: .pink.opacity(0.03))
+            }
+        )
+        .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
+        .shadow(color: Color.pink.opacity(colorScheme == .dark ? 0.2 : 0.1), radius: 16, x: 0, y: 8)
+        .overlay(
+            RoundedRectangle(cornerRadius: 20, style: .continuous)
+                .stroke(
+                    LinearGradient(
+                        gradient: Gradient(colors: [
+                            Color.pink.opacity(0.2),
+                            Color.clear,
+                            Color.pink.opacity(0.1)
+                        ]),
+                        startPoint: .topLeading,
+                        endPoint: .bottomTrailing
+                    ),
+                    lineWidth: 1
+                )
+        )
+    }
 } 

@@ -8,6 +8,8 @@ class PlatformViewModel: ObservableObject {
     @Published var error: String?
     @Published var selectedFilter: PlatformDateFilter = .last7Days
     @Published var hasLoaded = false
+    @Published var showEmptyState: Bool = false
+    @Published var emptyStateMessage: String? = nil
     
     var accessToken: String?
     var authViewModel: AuthViewModel?
@@ -19,7 +21,9 @@ class PlatformViewModel: ObservableObject {
     
     func fetchPlatformData() async {
         guard let currentToken = accessToken else {
-            self.error = "No access token available"
+            self.showEmptyState = true
+            self.emptyStateMessage = "Please sign in to view your platform data"
+            self.error = nil
             self.isLoading = false
             return
         }
@@ -45,20 +49,23 @@ class PlatformViewModel: ObservableObject {
             case .success(let id):
                 self.accountID = id
             case .failure(let error):
-                self.error = "Failed to get account ID: \(error.localizedDescription)"
-                self.isLoading = false
+                await handleError(error)
                 return
             }
         }
         
         guard let accountID = self.accountID else {
-            self.error = "No AdSense account found"
+            self.showEmptyState = true
+            self.emptyStateMessage = "No AdSense account found. Please make sure you have an active AdSense account."
+            self.error = nil
             self.isLoading = false
             return
         }
         
         self.isLoading = true
         self.error = nil
+        self.showEmptyState = false
+        self.emptyStateMessage = nil
         
         let dateRange = selectedFilter.dateRange
         let result = await fetchPlatformsData(
@@ -72,8 +79,15 @@ class PlatformViewModel: ObservableObject {
         case .success(let platforms):
             self.platforms = platforms
             self.hasLoaded = true
+            
+            // Check if no platforms were returned
+            if platforms.isEmpty {
+                self.showEmptyState = true
+                self.emptyStateMessage = "No platform data available for the selected time period. Try a different date range or ensure your ads are running."
+                self.error = nil
+            }
         case .failure(let error):
-            self.error = error.localizedDescription
+            await handleError(error)
         }
         
         self.isLoading = false
@@ -227,6 +241,61 @@ class PlatformViewModel: ObservableObject {
         } catch {
             print("Error fetching platform data: \(error)")
             return .failure(.requestFailed(error.localizedDescription))
+        }
+    }
+    
+    private func handleError(_ error: AdSenseError) async {
+        switch error {
+        case .unauthorized:
+            // Token might be expired, try to refresh
+            if let authViewModel = authViewModel {
+                let refreshSuccess = await authViewModel.refreshTokenIfNeeded()
+                if refreshSuccess, let newToken = authViewModel.accessToken {
+                    self.accessToken = newToken
+                    // Retry the request
+                    await fetchPlatformData()
+                    return
+                } else {
+                    showEmptyState = true
+                    emptyStateMessage = "Please sign in again to access your platform data."
+                    self.error = nil
+                }
+            } else {
+                showEmptyState = true
+                emptyStateMessage = "Please sign in again to access your platform data."
+                self.error = nil
+            }
+        case .requestFailed(let message):
+            // Check for specific UNAUTHENTICATED status
+            if message.contains("UNAUTHENTICATED|") {
+                showEmptyState = true
+                emptyStateMessage = "Please sign in again to access your platform data."
+                self.error = nil
+            }
+            // Check if this is a scope issue
+            else if message.contains("insufficient authentication scopes") || message.contains("Access forbidden") {
+                self.error = "Platform access requires additional permissions. Please grant AdSense access in your Google account settings or contact support."
+            } else {
+                showEmptyState = true
+                emptyStateMessage = "Unable to load platform data. Please try again later."
+                self.error = nil
+            }
+        case .noAccountID:
+            showEmptyState = true
+            emptyStateMessage = "No AdSense account found. Please make sure you have an active AdSense account."
+            self.error = nil
+        case .invalidURL:
+            showEmptyState = true
+            emptyStateMessage = "Unable to load platform data. Please try again later."
+            self.error = nil
+        case .invalidResponse:
+            showEmptyState = true
+            emptyStateMessage = "Unable to load platform data. Please try again later."
+            self.error = nil
+        case .decodingError(_):
+            showEmptyState = true
+            emptyStateMessage = "Unable to load platform data. Please try again later."
+            self.error = nil
         }
     }
 } 

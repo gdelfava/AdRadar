@@ -81,23 +81,10 @@ struct DomainsView: View {
                     .soraBody()
                     .padding()
                 Spacer()
-            } else if viewModel.domains.isEmpty {
-                VStack(spacing: 16) {
-                    Image(systemName: "globe")
-                        .font(.system(size: 48))
-                        .foregroundColor(.gray)
-                    
-                    Text("No Domain Data")
-                        .soraHeadline()
-                        .foregroundColor(.gray)
-                    
-                    Text("No domain data available for the selected time period.")
-                        .soraBody()
-                        .foregroundColor(.gray)
-                        .multilineTextAlignment(.center)
-                        .padding(.horizontal)
-                }
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
+            } else if viewModel.showEmptyState {
+                DomainsEmptyStateView(message: viewModel.emptyStateMessage ?? "No domain data available for the selected time period. Try a different date range or ensure your domains have ads running.")
+                    .padding(.horizontal, 20)
+                    .padding(.vertical, 100)
             } else {
                 domainsScrollView
             }
@@ -532,9 +519,88 @@ struct FilterRow: View {
     }
 }
 
-
-
 #Preview {
     DomainsView(showSlideOverMenu: .constant(false), selectedTab: .constant(0))
         .environmentObject(AuthViewModel())
+}
+
+// MARK: - Domains Empty State View
+
+struct DomainsEmptyStateView: View {
+    let message: String
+    @Environment(\.colorScheme) private var colorScheme
+    
+    var body: some View {
+        VStack(spacing: 24) {
+            // Enhanced icon with gradient background
+            ZStack {
+                RoundedRectangle(cornerRadius: 20, style: .continuous)
+                    .fill(
+                        LinearGradient(
+                            gradient: Gradient(colors: [
+                                Color.blue.opacity(0.15),
+                                Color.blue.opacity(0.08)
+                            ]),
+                            startPoint: .topLeading,
+                            endPoint: .bottomTrailing
+                        )
+                    )
+                    .frame(width: 80, height: 80)
+                
+                Image(systemName: "globe.americas.fill")
+                    .font(.system(size: 32, weight: .medium))
+                    .foregroundColor(.blue)
+            }
+            
+            // Enhanced content
+            VStack(spacing: 12) {
+                Text("No Domain Data Available")
+                    .soraHeadline()
+                    .foregroundColor(.primary)
+                    .multilineTextAlignment(.center)
+                    .padding(.horizontal, 8)
+                
+                Text("No domain data available for the selected time period. Try a different date range or ensure your domains have ads running.")
+                    .soraCaption()
+                    .foregroundColor(.secondary)
+                    .multilineTextAlignment(.center)
+            }
+        }
+        .padding(24)
+        .frame(maxWidth: .infinity)
+        .background(
+            ZStack {
+                // Base gradient background
+                LinearGradient(
+                    gradient: Gradient(stops: [
+                        .init(color: Color.blue.opacity(0.08), location: 0),
+                        .init(color: Color.blue.opacity(0.04), location: 0.5),
+                        .init(color: Color.blue.opacity(0.02), location: 1)
+                    ]),
+                    startPoint: .topLeading,
+                    endPoint: .bottomTrailing
+                )
+                
+                // Pattern overlay for visual interest
+                PatternOverlay(color: .blue.opacity(0.03))
+            }
+        )
+        .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
+        .shadow(color: Color.blue.opacity(colorScheme == .dark ? 0.2 : 0.1), radius: 16, x: 0, y: 8)
+        .overlay(
+            RoundedRectangle(cornerRadius: 20, style: .continuous)
+                .stroke(
+                    LinearGradient(
+                        gradient: Gradient(colors: [
+                            Color.blue.opacity(0.2),
+                            Color.clear,
+                            Color.blue.opacity(0.1)
+                        ]),
+                        startPoint: .topLeading,
+                        endPoint: .bottomTrailing
+                    ),
+                    lineWidth: 1
+                )
+        )
+    }
 } 

@@ -82,12 +82,15 @@ class AppViewModel: ObservableObject {
                 print("AdMob Account ID: \(accountID)")
             case .failure(let error):
                 await handleError(error)
+                self.isLoading = false
                 return
             }
         }
         
         guard let accountID = admobAccountID else {
-            errorMessage = "Failed to get AdMob account ID"
+            showEmptyState = true
+            emptyStateMessage = "NO_ADMOB_ACCOUNT"
+            errorMessage = nil
             isLoading = false
             return
         }
@@ -100,6 +103,13 @@ class AppViewModel: ObservableObject {
         case .success(let appsData):
             apps = appsData
             hasLoaded = true
+            
+            // Check if no apps were returned
+            if appsData.isEmpty {
+                showEmptyState = true
+                emptyStateMessage = "NO_DATA"
+                errorMessage = nil
+            }
         case .failure(let error):
             await handleError(error)
         }
@@ -166,38 +176,51 @@ class AppViewModel: ObservableObject {
                     return
                 } else {
                     showEmptyState = true
-                    emptyStateMessage = "Please sign in again to access your AdMob data."
+                    emptyStateMessage = "UNAUTHENTICATED"
                     errorMessage = nil
                 }
             } else {
                 showEmptyState = true
-                emptyStateMessage = "Please sign in again to access your AdMob data."
+                emptyStateMessage = "UNAUTHENTICATED"
                 errorMessage = nil
             }
         case .requestFailed(let message):
             // Check for specific UNAUTHENTICATED status
-            if message.contains("UNAUTHENTICATED|") {
+            if message.contains("UNAUTHENTICATED") || message.contains("401") {
                 showEmptyState = true
-                // Show specific message for missing AdMob account
-                emptyStateMessage = "NO_ADMOB_ACCOUNT"
+                emptyStateMessage = "UNAUTHENTICATED"
                 errorMessage = nil
             }
             // Check if this is a scope issue
             else if message.contains("insufficient authentication scopes") || message.contains("Access forbidden") {
-                errorMessage = "AdMob access requires additional permissions. Please grant AdMob access in your Google account settings or contact support."
+                showEmptyState = true
+                emptyStateMessage = "PERMISSIONS_REQUIRED"
+                errorMessage = nil
             } else {
-                errorMessage = message
+                showEmptyState = true
+                emptyStateMessage = "GENERIC_ERROR"
+                errorMessage = nil
             }
         case .noAccountID:
-            errorMessage = "No AdMob account found. Please make sure you have an active AdMob account."
+            showEmptyState = true
+            emptyStateMessage = "NO_ADMOB_ACCOUNT"
+            errorMessage = nil
         case .invalidURL:
-            errorMessage = "Invalid request URL"
+            showEmptyState = true
+            emptyStateMessage = "GENERIC_ERROR"
+            errorMessage = nil
         case .invalidResponse:
-            errorMessage = "Invalid response from AdMob API"
-        case .decodingError(let message):
-            errorMessage = "Data parsing error: \(message)"
+            showEmptyState = true
+            emptyStateMessage = "GENERIC_ERROR"
+            errorMessage = nil
+        case .decodingError(_):
+            showEmptyState = true
+            emptyStateMessage = "GENERIC_ERROR"
+            errorMessage = nil
         case .noData:
-            errorMessage = "No app data available for the selected period"
+            showEmptyState = true
+            emptyStateMessage = "NO_DATA"
+            errorMessage = nil
         }
     }
 } 

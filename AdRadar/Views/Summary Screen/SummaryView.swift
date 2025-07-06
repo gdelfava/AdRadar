@@ -39,29 +39,16 @@ struct SummaryView: View {
                 
                 ScrollView {
                     VStack(alignment: .center, spacing: 0) {
-                        if let errorMessage = viewModel.errorMessage {
-                            Text(errorMessage)
-                                .soraBody()
-                                .foregroundColor(.red)
-                                .padding()
-                        }
-                        if viewModel.isOffline {
-                            Text("No internet connection. Please check your network and try again.")
-                                .soraBody()
-                                .foregroundColor(.red)
-                                .padding()
-                        }
-
                         if viewModel.isLoading {
                             Spacer()
                             ProgressView("Loading overview...")
                                 .soraBody()
                                 .padding()
                             Spacer()
-                        } else if let error = viewModel.error {
-                            Spacer()
-                            ErrorBannerView(message: error, symbol: errorSymbol(for: error))
-                            Spacer()
+                        } else if viewModel.showEmptyState {
+                            SummaryEmptyStateView(message: viewModel.emptyStateMessage)
+                                .padding(.horizontal, 20)
+                                .padding(.vertical, 100)
                         } else if let data = viewModel.summaryData {
                             LazyVStack(spacing: 24) {
                                 // HERO SECTION - Today's performance
@@ -339,4 +326,142 @@ struct SummaryView: View {
         showSlideOverMenu: .constant(false),
         selectedTab: .constant(0)
     )
+}
+
+// MARK: - Summary Empty State View
+
+struct SummaryEmptyStateView: View {
+    let message: String
+    @Environment(\.colorScheme) private var colorScheme
+    
+    // Determine icon and color based on message type
+    private var iconName: String {
+        if message.contains("sign in") || message.contains("UNAUTHENTICATED") {
+            return "person.crop.circle.badge.exclamationmark"
+        } else if message.contains("No AdSense account") {
+            return "creditcard.slash"
+        } else if message.contains("connection") || message.contains("network") {
+            return "wifi.slash"
+        } else if message.contains("Unable to load") {
+            return "exclamationmark.triangle.fill"
+        } else {
+            return "chart.bar.fill"
+        }
+    }
+    
+    private var iconColor: Color {
+        if message.contains("sign in") || message.contains("UNAUTHENTICATED") {
+            return .orange
+        } else if message.contains("No AdSense account") {
+            return .red
+        } else if message.contains("connection") || message.contains("network") {
+            return .blue
+        } else if message.contains("Unable to load") {
+            return .gray
+        } else {
+            return .accentColor
+        }
+    }
+    
+    private var titleText: String {
+        if message.contains("sign in") || message.contains("UNAUTHENTICATED") {
+            return "Authentication Required"
+        } else if message.contains("No AdSense account") {
+            return "No AdSense Account"
+        } else if message.contains("connection") || message.contains("network") {
+            return "No Internet Connection"
+        } else if message.contains("Unable to load") {
+            return "Unable to Load Data"
+        } else {
+            return "No Data Available"
+        }
+    }
+    
+    private var subtitleText: String {
+        if message.contains("sign in") || message.contains("UNAUTHENTICATED") {
+            return "Please sign in to view your earnings data"
+        } else if message.contains("No AdSense account") {
+            return "No AdSense account found"
+        } else if message.contains("connection") || message.contains("network") {
+            return "Unable to load data. Please check your connection."
+        } else if message.contains("Unable to load") {
+            return "Unable to load earnings data. Please try again later."
+        } else {
+            return "No earnings data available for the selected time period."
+        }
+    }
+    
+    var body: some View {
+        VStack(spacing: 24) {
+            // Enhanced icon with gradient background
+            ZStack {
+                RoundedRectangle(cornerRadius: 20, style: .continuous)
+                    .fill(
+                        LinearGradient(
+                            gradient: Gradient(colors: [
+                                iconColor.opacity(0.15),
+                                iconColor.opacity(0.08)
+                            ]),
+                            startPoint: .topLeading,
+                            endPoint: .bottomTrailing
+                        )
+                    )
+                    .frame(width: 80, height: 80)
+                
+                Image(systemName: iconName)
+                    .font(.system(size: 32, weight: .medium))
+                    .foregroundColor(iconColor)
+            }
+            
+            // Enhanced content
+            VStack(spacing: 12) {
+                Text(titleText)
+                    .soraHeadline()
+                    .foregroundColor(.primary)
+                    .multilineTextAlignment(.center)
+                    .padding(.horizontal, 8)
+                
+                Text(subtitleText)
+                    .soraCaption()
+                    .foregroundColor(.secondary)
+                    .multilineTextAlignment(.center)
+            }
+        }
+        .padding(24)
+        .frame(maxWidth: .infinity)
+        .background(
+            ZStack {
+                // Base gradient background
+                LinearGradient(
+                    gradient: Gradient(stops: [
+                        .init(color: iconColor.opacity(0.08), location: 0),
+                        .init(color: iconColor.opacity(0.04), location: 0.5),
+                        .init(color: iconColor.opacity(0.02), location: 1)
+                    ]),
+                    startPoint: .topLeading,
+                    endPoint: .bottomTrailing
+                )
+                
+                // Pattern overlay for visual interest
+                PatternOverlay(color: iconColor.opacity(0.03))
+            }
+        )
+        .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
+        .shadow(color: iconColor.opacity(colorScheme == .dark ? 0.2 : 0.1), radius: 16, x: 0, y: 8)
+        .overlay(
+            RoundedRectangle(cornerRadius: 20, style: .continuous)
+                .stroke(
+                    LinearGradient(
+                        gradient: Gradient(colors: [
+                            iconColor.opacity(0.2),
+                            Color.clear,
+                            iconColor.opacity(0.1)
+                        ]),
+                        startPoint: .topLeading,
+                        endPoint: .bottomTrailing
+                    ),
+                    lineWidth: 1
+                )
+        )
+    }
 }

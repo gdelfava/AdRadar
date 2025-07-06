@@ -83,83 +83,8 @@ struct AppsView: View {
                 Spacer()
             } else if viewModel.showEmptyState {
                 AppsEmptyStateView(message: viewModel.emptyStateMessage ?? "")
-            } else if let errorMessage = viewModel.errorMessage {
-                VStack(spacing: 16) {
-                    Image(systemName: "exclamationmark.triangle")
-                        .font(.system(size: 48))
-                        .foregroundColor(.orange)
-                    
-                    Text("Error Loading Apps")
-                        .soraHeadline()
-                        .foregroundColor(.gray)
-                    
-                    Text(errorMessage)
-                        .soraBody()
-                        .foregroundColor(.gray)
-                        .multilineTextAlignment(.center)
-                        .padding(.horizontal)
-                    
-                    VStack(spacing: 12) {
-                        if errorMessage.contains("AdMob access requires additional permissions") {
-                            Button("Grant AdMob Permissions") {
-                                authViewModel.requestAdditionalScopes()
-                            }
-                            .soraBody()
-                            .foregroundColor(.white)
-                            .padding(.horizontal, 20)
-                            .padding(.vertical, 12)
-                            .background(Color.accentColor)
-                            .cornerRadius(8)
-                        }
-                        
-                        Button("Retry") {
-                            Task {
-                                await viewModel.fetchAppData()
-                            }
-                        }
-                        .soraBody()
-                        .foregroundColor(.accentColor)
-                        .padding(.horizontal, 20)
-                        .padding(.vertical, 10)
-                        .background(Color.accentColor.opacity(0.1))
-                        .cornerRadius(8)
-                    }
-                }
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-            } else if viewModel.apps.isEmpty {
-                VStack(spacing: 16) {
-                    Image(systemName: "apps.iphone")
-                        .font(.system(size: 48))
-                        .foregroundColor(.gray)
-                    
-                    Text("No App Data")
-                        .soraHeadline()
-                        .foregroundColor(.gray)
-                    
-                    VStack(spacing: 8) {
-                        Text("No AdMob app data available for \(viewModel.selectedFilter.rawValue.lowercased()).")
-                            .soraBody()
-                            .foregroundColor(.gray)
-                            .multilineTextAlignment(.center)
-                        
-                        Text("Try selecting a different date range or ensure your apps have AdMob ads running.")
-                            .soraCaption()
-                            .foregroundColor(.secondary)
-                            .multilineTextAlignment(.center)
-                    }
-                    .padding(.horizontal)
-                    
-                    Button("Try Different Date Range") {
-                        showingDateFilter = true
-                    }
-                    .soraBody()
-                    .foregroundColor(.accentColor)
                     .padding(.horizontal, 20)
-                    .padding(.vertical, 10)
-                    .background(Color.accentColor.opacity(0.1))
-                    .cornerRadius(8)
-                }
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .padding(.vertical, 100)
             } else {
                 appsScrollView
             }
@@ -573,138 +498,166 @@ struct AppCard: View {
 
 struct AppsEmptyStateView: View {
     let message: String
+    @Environment(\.colorScheme) private var colorScheme
     
     private var isNoAdMobAccount: Bool {
         message == "NO_ADMOB_ACCOUNT"
     }
     
+    private var isNoData: Bool {
+        message == "NO_DATA" || message.contains("No app data available")
+    }
+    
+    private var isUnauthenticated: Bool {
+        message == "UNAUTHENTICATED"
+    }
+    
+    private var isPermissionsRequired: Bool {
+        message == "PERMISSIONS_REQUIRED"
+    }
+    
+    private var isGenericError: Bool {
+        message == "GENERIC_ERROR"
+    }
+    
     var body: some View {
         VStack(spacing: 24) {
-            // Icon
-            Image(systemName: isNoAdMobAccount ? "apps.iphone.slash" : "exclamationmark.triangle.fill")
-                .font(.system(size: 48, weight: .medium))
-                .foregroundColor(isNoAdMobAccount ? .blue : .orange)
+            // Enhanced icon with gradient background
+            ZStack {
+                RoundedRectangle(cornerRadius: 20, style: .continuous)
+                    .fill(
+                        LinearGradient(
+                            gradient: Gradient(colors: [
+                                iconColor.opacity(0.15),
+                                iconColor.opacity(0.08)
+                            ]),
+                            startPoint: .topLeading,
+                            endPoint: .bottomTrailing
+                        )
+                    )
+                    .frame(width: 80, height: 80)
+                
+                Image(systemName: iconName)
+                    .font(.system(size: 32, weight: .medium))
+                    .foregroundColor(iconColor)
+            }
             
-            // Content
+            // Enhanced content
             VStack(spacing: 12) {
-                Text(isNoAdMobAccount ? "No AdMob Account Detected" : "AdMob Authentication Required")
-                    .soraFont(.semibold, size: 20)
+                Text(titleText)
+                    .soraHeadline()
                     .foregroundColor(.primary)
                     .multilineTextAlignment(.center)
+                    .padding(.horizontal, 8)
                 
-                if isNoAdMobAccount {
-                    VStack(spacing: 8) {
-                        Text("To monetize your apps with AdMob, you'll need to create an AdMob account.")
-                            .soraBody()
-                            .foregroundColor(.secondary)
-                            .multilineTextAlignment(.center)
-                        
-                        Link("Create an account at admob.google.com", destination: URL(string: "https://admob.google.com/")!)
-                            .soraBody()
-                            .foregroundColor(.accentColor)
-                            .multilineTextAlignment(.center)
-                    }
-                    .padding(.horizontal, 16)
-                } else {
-                    Text(message.isEmpty ? "AdMob access requires proper authentication. Please check your Google account permissions and sign in again to access your app data." : message)
-                        .soraBody()
-                        .foregroundColor(.secondary)
-                        .multilineTextAlignment(.center)
-                        .padding(.horizontal, 16)
-                }
-            }
-            
-            // Action suggestion
-            VStack(spacing: 8) {
-                Text("What you can do:")
-                    .soraSubheadline()
-                    .foregroundColor(.primary)
-                
-                if isNoAdMobAccount {
-                    VStack(alignment: .leading, spacing: 6) {
-                        HStack(alignment: .top, spacing: 8) {
-                            Text("•")
-                                .soraBody()
-                                .foregroundColor(.secondary)
-                            Text("Visit admob.google.com to create your free AdMob account")
-                                .soraBody()
-                                .foregroundColor(.secondary)
-                        }
-                        
-                        HStack(alignment: .top, spacing: 8) {
-                            Text("•")
-                                .soraBody()
-                                .foregroundColor(.secondary)
-                            Text("Connect your Google account during the AdMob signup process")
-                                .soraBody()
-                                .foregroundColor(.secondary)
-                        }
-                        
-                        HStack(alignment: .top, spacing: 8) {
-                            Text("•")
-                                .soraBody()
-                                .foregroundColor(.secondary)
-                            Text("Add your mobile apps to start earning revenue with ads")
-                                .soraBody()
-                                .foregroundColor(.secondary)
-                        }
-                        
-                        HStack(alignment: .top, spacing: 8) {
-                            Text("•")
-                                .soraBody()
-                                .foregroundColor(.secondary)
-                            Text("Return to AdRadar after setting up your AdMob account")
-                                .soraBody()
-                                .foregroundColor(.secondary)
-                        }
-                    }
-                    .padding(.horizontal, 16)
-                } else {
-                    VStack(alignment: .leading, spacing: 6) {
-                        HStack(alignment: .top, spacing: 8) {
-                            Text("•")
-                                .soraBody()
-                                .foregroundColor(.secondary)
-                            Text("Sign out and sign back in to refresh your authentication")
-                                .soraBody()
-                                .foregroundColor(.secondary)
-                        }
-                        
-                        HStack(alignment: .top, spacing: 8) {
-                            Text("•")
-                                .soraBody()
-                                .foregroundColor(.secondary)
-                            Text("Ensure AdMob permissions are granted in your Google account")
-                                .soraBody()
-                                .foregroundColor(.secondary)
-                        }
-                        
-                        HStack(alignment: .top, spacing: 8) {
-                            Text("•")
-                                .soraBody()
-                                .foregroundColor(.secondary)
-                            Text("Check that your Google account has access to AdMob")
-                                .soraBody()
-                                .foregroundColor(.secondary)
-                        }
-                        
-                        HStack(alignment: .top, spacing: 8) {
-                            Text("•")
-                                .soraBody()
-                                .foregroundColor(.secondary)
-                            Text("Contact support if the issue persists")
-                                .soraBody()
-                                .foregroundColor(.secondary)
-                        }
-                    }
-                    .padding(.horizontal, 16)
-                }
+                Text(subtitleText)
+                    .soraCaption()
+                    .foregroundColor(.secondary)
+                    .multilineTextAlignment(.center)
             }
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .padding(.horizontal, 32)
-        .padding(.vertical, 40)
-        .background(Color(.systemBackground))
+        .padding(24)
+        .frame(maxWidth: .infinity)
+        .background(
+            ZStack {
+                // Base gradient background
+                LinearGradient(
+                    gradient: Gradient(stops: [
+                        .init(color: iconColor.opacity(0.08), location: 0),
+                        .init(color: iconColor.opacity(0.04), location: 0.5),
+                        .init(color: iconColor.opacity(0.02), location: 1)
+                    ]),
+                    startPoint: .topLeading,
+                    endPoint: .bottomTrailing
+                )
+                
+                // Pattern overlay for visual interest
+                PatternOverlay(color: iconColor.opacity(0.03))
+            }
+        )
+        .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
+        .shadow(color: iconColor.opacity(colorScheme == .dark ? 0.2 : 0.1), radius: 16, x: 0, y: 8)
+        .overlay(
+            RoundedRectangle(cornerRadius: 20, style: .continuous)
+                .stroke(
+                    LinearGradient(
+                        gradient: Gradient(colors: [
+                            iconColor.opacity(0.2),
+                            Color.clear,
+                            iconColor.opacity(0.1)
+                        ]),
+                        startPoint: .topLeading,
+                        endPoint: .bottomTrailing
+                    ),
+                    lineWidth: 1
+                )
+        )
+    }
+    
+    // MARK: - Computed Properties
+    
+    private var iconName: String {
+        if isUnauthenticated {
+            return "person.crop.circle.badge.exclamationmark"
+        } else if isNoAdMobAccount {
+            return "apps.iphone.slash"
+        } else if isPermissionsRequired {
+            return "lock.shield"
+        } else if isGenericError {
+            return "exclamationmark.triangle.fill"
+        } else if isNoData {
+            return "apps.iphone"
+        } else {
+            return "exclamationmark.triangle.fill"
+        }
+    }
+    
+    private var iconColor: Color {
+        if isUnauthenticated {
+            return .red
+        } else if isNoAdMobAccount {
+            return .blue
+        } else if isPermissionsRequired {
+            return .orange
+        } else if isGenericError {
+            return .orange
+        } else if isNoData {
+            return .cyan
+        } else {
+            return .orange
+        }
+    }
+    
+    private var titleText: String {
+        if isUnauthenticated {
+            return "Authentication Required"
+        } else if isNoAdMobAccount {
+            return "No AdMob Account Detected"
+        } else if isPermissionsRequired {
+            return "Additional Permissions Required"
+        } else if isGenericError {
+            return "Unable to Load Data"
+        } else if isNoData {
+            return "No App Data Available"
+        } else {
+            return "AdMob Authentication Required"
+        }
+    }
+    
+    private var subtitleText: String {
+        if isUnauthenticated {
+            return "Please sign in again to access your AdMob data. Your session may have expired."
+        } else if isNoAdMobAccount {
+            return "Create an AdMob account to start monetizing your apps"
+        } else if isPermissionsRequired {
+            return "AdMob access requires additional permissions. Please grant AdMob access in your Google account settings."
+        } else if isGenericError {
+            return "Unable to load AdMob app data. Please check your connection and try again."
+        } else if isNoData {
+            return "No AdMob app data available for the selected period. Try a different date range or ensure your apps have ads running."
+        } else {
+            return "Please check your Google account permissions and sign in again"
+        }
     }
 }
 

@@ -75,19 +75,13 @@ struct AdNetworkView: View {
     
     private var mainContent: some View {
         Group {
-            if let error = viewModel.error {
-                ErrorBannerView(message: error, symbol: errorSymbol(for: error))
-                    .padding(.horizontal)
-                    .padding(.top)
-            }
-            
             if viewModel.isLoading {
                 Spacer()
                 ProgressView("Loading ad networks...")
                     .soraBody()
                     .padding()
                 Spacer()
-            } else if viewModel.adNetworks.isEmpty && viewModel.hasLoaded {
+            } else if viewModel.showEmptyState {
                 emptyStateView
             } else {
                 adNetworksScrollView
@@ -96,22 +90,9 @@ struct AdNetworkView: View {
     }
     
     private var emptyStateView: some View {
-        VStack(spacing: 16) {
-            Image(systemName: "network")
-                .font(.system(size: 48))
-                .foregroundColor(.secondary)
-            
-            Text("No Ad Network Data")
-                .soraHeadline()
-                .foregroundColor(.primary)
-            
-            Text("No ad network data available for the selected time period.")
-                .soraBody()
-                .foregroundColor(.secondary)
-                .multilineTextAlignment(.center)
-        }
-        .padding()
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        AdNetworkEmptyStateView(message: viewModel.emptyStateMessage)
+            .padding(.horizontal, 20)
+            .padding(.vertical, 100)
     }
     
     private var adNetworksScrollView: some View {
@@ -225,15 +206,7 @@ struct AdNetworkView: View {
         .padding(.bottom, 20)
     }
     
-    private func errorSymbol(for error: String) -> String {
-        if error.localizedCaseInsensitiveContains("internet") || error.localizedCaseInsensitiveContains("offline") {
-            return "wifi.slash"
-        } else if error.localizedCaseInsensitiveContains("unauthorized") || error.localizedCaseInsensitiveContains("session") {
-            return "person.crop.circle.badge.exclamationmark"
-        } else {
-            return "exclamationmark.triangle"
-        }
-    }
+
     
     private func calculateTotalEarnings() -> String {
         let totalEarnings = viewModel.adNetworks.reduce(0.0) { sum, adNetwork in
@@ -255,4 +228,85 @@ struct AdNetworkView: View {
 #Preview {
     AdNetworkView(showSlideOverMenu: .constant(false), selectedTab: .constant(0))
         .environmentObject(AuthViewModel())
+}
+
+// MARK: - Ad Network Empty State View
+
+struct AdNetworkEmptyStateView: View {
+    let message: String?
+    @Environment(\.colorScheme) private var colorScheme
+    
+    var body: some View {
+        VStack(spacing: 24) {
+            // Enhanced icon with gradient background
+            ZStack {
+                RoundedRectangle(cornerRadius: 20, style: .continuous)
+                    .fill(
+                        LinearGradient(
+                            gradient: Gradient(colors: [
+                                Color.indigo.opacity(0.15),
+                                Color.indigo.opacity(0.08)
+                            ]),
+                            startPoint: .topLeading,
+                            endPoint: .bottomTrailing
+                        )
+                    )
+                    .frame(width: 80, height: 80)
+                
+                Image(systemName: "network")
+                    .font(.system(size: 32, weight: .medium))
+                    .foregroundColor(.indigo)
+            }
+            
+            // Enhanced content
+            VStack(spacing: 12) {
+                Text("No Ad Network Data Available")
+                    .soraHeadline()
+                    .foregroundColor(.primary)
+                    .multilineTextAlignment(.center)
+                    .padding(.horizontal, 8)
+                
+                Text(message ?? "No ad network data available for the selected time period. Try a different date range or ensure your ads are running.")
+                    .soraCaption()
+                    .foregroundColor(.secondary)
+                    .multilineTextAlignment(.center)
+            }
+        }
+        .padding(24)
+        .frame(maxWidth: .infinity)
+        .background(
+            ZStack {
+                // Base gradient background
+                LinearGradient(
+                    gradient: Gradient(stops: [
+                        .init(color: Color.indigo.opacity(0.08), location: 0),
+                        .init(color: Color.indigo.opacity(0.04), location: 0.5),
+                        .init(color: Color.indigo.opacity(0.02), location: 1)
+                    ]),
+                    startPoint: .topLeading,
+                    endPoint: .bottomTrailing
+                )
+                
+                // Pattern overlay for visual interest
+                PatternOverlay(color: .indigo.opacity(0.03))
+            }
+        )
+        .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
+        .shadow(color: Color.indigo.opacity(colorScheme == .dark ? 0.2 : 0.1), radius: 16, x: 0, y: 8)
+        .overlay(
+            RoundedRectangle(cornerRadius: 20, style: .continuous)
+                .stroke(
+                    LinearGradient(
+                        gradient: Gradient(colors: [
+                            Color.indigo.opacity(0.2),
+                            Color.clear,
+                            Color.indigo.opacity(0.1)
+                        ]),
+                        startPoint: .topLeading,
+                        endPoint: .bottomTrailing
+                    ),
+                    lineWidth: 1
+                )
+        )
+    }
 } 

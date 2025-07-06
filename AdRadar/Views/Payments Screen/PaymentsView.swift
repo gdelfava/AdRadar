@@ -54,9 +54,9 @@ struct PaymentsView: View {
                                 .padding()
                             Spacer()
                         } else if viewModel.showEmptyState {
-                            Spacer()
                             PaymentsEmptyStateView(message: viewModel.emptyStateMessage)
-                            Spacer()
+                                .padding(.horizontal, 20)
+                                .padding(.vertical, 100)
                         } else if let error = viewModel.error {
                             Spacer()
                             ErrorBannerView(message: error, symbol: errorSymbol(for: error))

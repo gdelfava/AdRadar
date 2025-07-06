@@ -286,7 +286,9 @@ class SummaryViewModel: ObservableObject {
                 }
                 return
             }
-            self.error = "Failed to fetch summary data after multiple attempts."
+            self.showEmptyState = true
+            self.emptyStateMessage = "Unable to load earnings data. Please try again later."
+            self.error = nil
             self.isLoading = false
         }
     }
@@ -317,7 +319,9 @@ class SummaryViewModel: ObservableObject {
         errorMessage = nil
         guard let user = GIDSignIn.sharedInstance.currentUser else {
             print("[SummaryViewModel] No current user found")
-            errorMessage = "Not signed in."
+            self.showEmptyState = true
+            self.emptyStateMessage = "Please sign in to view your earnings data"
+            self.error = nil
             return
         }
         
@@ -351,7 +355,9 @@ class SummaryViewModel: ObservableObject {
                 if let error = error {
                     print("[SummaryViewModel] Token refresh failed: \(error)")
                     DispatchQueue.main.async {
-                        self.errorMessage = "Token refresh failed: \(error.localizedDescription)"
+                        self.showEmptyState = true
+                        self.emptyStateMessage = "Please sign in to view your earnings data"
+                        self.error = nil
                         continuation.resume()
                     }
                     return
@@ -359,7 +365,9 @@ class SummaryViewModel: ObservableObject {
                 guard let refreshedUser = refreshedUser else {
                     print("[SummaryViewModel] No user after token refresh")
                     DispatchQueue.main.async {
-                        self.errorMessage = "No user after token refresh."
+                        self.showEmptyState = true
+                        self.emptyStateMessage = "Please sign in to view your earnings data"
+                        self.error = nil
                         continuation.resume()
                     }
                     return
@@ -410,8 +418,10 @@ class SummaryViewModel: ObservableObject {
                         case .success(let metrics):
                             self.selectedDayMetrics = metrics
                             self.showDayMetricsSheet = true
-                        case .failure(let error):
-                            self.errorMessage = "Failed to load metrics: \(error.localizedDescription)"
+                        case .failure(_):
+                            self.showEmptyState = true
+                            self.emptyStateMessage = "Unable to load earnings data. Please try again later."
+                            self.error = nil
                         }
                         continuation.resume()
                     }

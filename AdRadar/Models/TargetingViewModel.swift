@@ -8,6 +8,8 @@ class TargetingViewModel: ObservableObject {
     @Published var error: String?
     @Published var selectedFilter: DateFilter = .last7Days
     @Published var hasLoaded = false
+    @Published var showEmptyState: Bool = false
+    @Published var emptyStateMessage: String? = nil
     
     var accessToken: String?
     var authViewModel: AuthViewModel?
@@ -19,7 +21,9 @@ class TargetingViewModel: ObservableObject {
     
     func fetchTargetingData() async {
         guard let currentToken = accessToken else {
-            self.error = "No access token available"
+            self.showEmptyState = true
+            self.emptyStateMessage = "Please sign in to view your targeting data"
+            self.error = nil
             self.isLoading = false
             return
         }
@@ -35,6 +39,8 @@ class TargetingViewModel: ObservableObject {
             self.isLoading = false
             self.error = nil
             self.hasLoaded = true
+            self.showEmptyState = false
+            self.emptyStateMessage = nil
             return
         }
         
@@ -45,20 +51,23 @@ class TargetingViewModel: ObservableObject {
             case .success(let id):
                 self.accountID = id
             case .failure(let error):
-                self.error = "Failed to get account ID: \(error.localizedDescription)"
-                self.isLoading = false
+                await handleError(error)
                 return
             }
         }
         
         guard let accountID = self.accountID else {
-            self.error = "No AdSense account found"
+            self.showEmptyState = true
+            self.emptyStateMessage = "No AdSense account found. Please make sure you have an active AdSense account."
+            self.error = nil
             self.isLoading = false
             return
         }
         
         self.isLoading = true
         self.error = nil
+        self.showEmptyState = false
+        self.emptyStateMessage = nil
         
         let dateRange = selectedFilter.dateRange
         let result = await fetchTargetingDataFromAPI(
@@ -72,8 +81,19 @@ class TargetingViewModel: ObservableObject {
         case .success(let targeting):
             self.targetingData = targeting
             self.hasLoaded = true
+            
+            // Check if no targeting data was returned
+            if targeting.isEmpty {
+                self.showEmptyState = true
+                self.emptyStateMessage = "No targeting data available for the selected time period. Try a different date range or ensure your ads are running."
+                self.error = nil
+            } else {
+                self.showEmptyState = false
+                self.emptyStateMessage = nil
+                self.error = nil
+            }
         case .failure(let error):
-            self.error = error.localizedDescription
+            await handleError(error)
         }
         
         self.isLoading = false
@@ -230,6 +250,65 @@ class TargetingViewModel: ObservableObject {
             }
         } catch {
             return .failure(.requestFailed("Unexpected error: \(error.localizedDescription)"))
+        }
+    }
+    
+    private func handleError(_ error: AdSenseError) async {
+        switch error {
+        case .unauthorized:
+            // Token might be expired, try to refresh
+            if let authViewModel = authViewModel {
+                let refreshSuccess = await authViewModel.refreshTokenIfNeeded()
+                if refreshSuccess, let newToken = authViewModel.accessToken {
+                    self.accessToken = newToken
+                    // Retry the request
+                    await fetchTargetingData()
+                    return
+                } else {
+                    showEmptyState = true
+                    emptyStateMessage = "Please sign in again to access your targeting data."
+                    self.error = nil
+                }
+            } else {
+                showEmptyState = true
+                emptyStateMessage = "Please sign in again to access your targeting data."
+                self.error = nil
+            }
+        case .noAccountID:
+            showEmptyState = true
+            emptyStateMessage = "No AdSense account found. Please make sure you have an active AdSense account."
+            self.error = nil
+        case .requestFailed(let message):
+            // Check for specific authentication issues
+            if message.contains("insufficient authentication scopes") || message.contains("Access forbidden") {
+                showEmptyState = true
+                emptyStateMessage = "AdSense access requires additional permissions. Please grant AdSense access in your Google account settings."
+                self.error = nil
+            } else if message.contains("No internet") {
+                showEmptyState = true
+                emptyStateMessage = "No internet connection. Please check your network and try again."
+                self.error = nil
+            } else if message.contains("timed out") {
+                showEmptyState = true
+                emptyStateMessage = "Request timed out. Please try again."
+                self.error = nil
+            } else {
+                showEmptyState = true
+                emptyStateMessage = "Unable to load targeting data. Please try again later."
+                self.error = nil
+            }
+        case .invalidURL:
+            showEmptyState = true
+            emptyStateMessage = "Unable to load targeting data. Please try again later."
+            self.error = nil
+        case .invalidResponse:
+            showEmptyState = true
+            emptyStateMessage = "Unable to load targeting data. Please try again later."
+            self.error = nil
+        case .decodingError(_):
+            showEmptyState = true
+            emptyStateMessage = "Unable to load targeting data. Please try again later."
+            self.error = nil
         }
     }
 } 

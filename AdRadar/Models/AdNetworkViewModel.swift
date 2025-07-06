@@ -95,33 +95,70 @@ class AdNetworkViewModel: ObservableObject {
             self.adNetworks = adNetworks
             self.hasLoaded = true
             if adNetworks.isEmpty {
-                self.error = "No ad network data available for the selected time period."
+                self.showEmptyState = true
+                self.emptyStateMessage = "No ad network data available for the selected time period. Try a different date range or ensure your ads are running."
+                self.error = nil
+            } else {
+                self.showEmptyState = false
+                self.emptyStateMessage = ""
+                self.error = nil
             }
         case .failure(let error):
             switch error {
             case .unauthorized:
-                self.error = "Session expired. Please sign in again."
-                Task { @MainActor in
-                    authViewModel?.signOut()
+                // Token might be expired, try to refresh
+                if let authViewModel = authViewModel {
+                    let refreshSuccess = await authViewModel.refreshTokenIfNeeded()
+                    if refreshSuccess, let newToken = authViewModel.accessToken {
+                        self.accessToken = newToken
+                        // Retry the request
+                        await fetchAdNetworkData()
+                        return
+                    } else {
+                        showEmptyState = true
+                        emptyStateMessage = "Please sign in again to access your ad network data."
+                        self.error = nil
+                    }
+                } else {
+                    showEmptyState = true
+                    emptyStateMessage = "Please sign in again to access your ad network data."
+                    self.error = nil
                 }
             case .noAccountID:
-                self.error = "No AdSense account found. Please make sure you have an active AdSense account."
+                showEmptyState = true
+                emptyStateMessage = "No AdSense account found. Please make sure you have an active AdSense account."
+                self.error = nil
             case .requestFailed(let message):
-                if message.contains("No internet") {
-                    self.error = "No internet connection. Please check your connection and try again."
+                // Check for specific authentication issues
+                if message.contains("insufficient authentication scopes") || message.contains("Access forbidden") {
+                    showEmptyState = true
+                    emptyStateMessage = "AdSense access requires additional permissions. Please grant AdSense access in your Google account settings."
+                    self.error = nil
+                } else if message.contains("No internet") {
+                    showEmptyState = true
+                    emptyStateMessage = "No internet connection. Please check your network and try again."
+                    self.error = nil
                 } else if message.contains("timed out") {
-                    self.error = "Request timed out. Please try again."
-                } else if message.contains("forbidden") {
-                    self.error = "Access denied. Please check your AdSense permissions."
+                    showEmptyState = true
+                    emptyStateMessage = "Request timed out. Please try again."
+                    self.error = nil
                 } else {
-                    self.error = message
+                    showEmptyState = true
+                    emptyStateMessage = "Unable to load ad network data. Please try again later."
+                    self.error = nil
                 }
             case .invalidURL:
-                self.error = "Invalid API configuration. Please try again later."
+                showEmptyState = true
+                emptyStateMessage = "Unable to load ad network data. Please try again later."
+                self.error = nil
             case .invalidResponse:
-                self.error = "Invalid response from AdSense. Please try again later."
-            case .decodingError(let message):
-                self.error = "Data parsing error: \(message)"
+                showEmptyState = true
+                emptyStateMessage = "Unable to load ad network data. Please try again later."
+                self.error = nil
+            case .decodingError(_):
+                showEmptyState = true
+                emptyStateMessage = "Unable to load ad network data. Please try again later."
+                self.error = nil
             }
         }
         
