@@ -171,7 +171,7 @@ class SummaryViewModel: ObservableObject {
                             }
                         }
                         self.showEmptyState = true
-                        self.emptyStateMessage = "Please sign in to view your earnings data"
+                        self.emptyStateMessage = "UNAUTHENTICATED"
                         self.error = nil
                         self.isLoading = false
                         return
@@ -320,7 +320,7 @@ class SummaryViewModel: ObservableObject {
         guard let user = GIDSignIn.sharedInstance.currentUser else {
             print("[SummaryViewModel] No current user found")
             self.showEmptyState = true
-            self.emptyStateMessage = "Please sign in to view your earnings data"
+            self.emptyStateMessage = "UNAUTHENTICATED"
             self.error = nil
             return
         }
@@ -356,7 +356,7 @@ class SummaryViewModel: ObservableObject {
                     print("[SummaryViewModel] Token refresh failed: \(error)")
                     DispatchQueue.main.async {
                         self.showEmptyState = true
-                        self.emptyStateMessage = "Please sign in to view your earnings data"
+                        self.emptyStateMessage = "UNAUTHENTICATED"
                         self.error = nil
                         continuation.resume()
                     }
@@ -366,7 +366,7 @@ class SummaryViewModel: ObservableObject {
                     print("[SummaryViewModel] No user after token refresh")
                     DispatchQueue.main.async {
                         self.showEmptyState = true
-                        self.emptyStateMessage = "Please sign in to view your earnings data"
+                        self.emptyStateMessage = "UNAUTHENTICATED"
                         self.error = nil
                         continuation.resume()
                     }

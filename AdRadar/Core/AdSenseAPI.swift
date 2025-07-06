@@ -205,6 +205,12 @@ class AdSenseAPI {
             
             switch httpResponse.statusCode {
             case 200:
+                // Check if response is empty
+                if data.isEmpty || String(data: data, encoding: .utf8) == "{}" {
+                    print("Empty response from AdSense API - no accounts found")
+                    return .failure(.noAccountID)
+                }
+                
                 do {
                     let decoder = JSONDecoder()
                     let accounts = try decoder.decode(AccountsResponse.self, from: data)
@@ -218,6 +224,10 @@ class AdSenseAPI {
                     }
                 } catch {
                     print("Decoding error: \(error)")
+                    // If decoding fails and we have an empty response, treat as no account
+                    if String(data: data, encoding: .utf8) == "{}" {
+                        return .failure(.noAccountID)
+                    }
                     return .failure(.decodingError(error.localizedDescription))
                 }
             case 401:
@@ -543,6 +553,12 @@ class AdSenseAPI {
             
             switch httpResponse.statusCode {
             case 200:
+                // Check if response is empty
+                if data.isEmpty || String(data: data, encoding: .utf8) == "{}" {
+                    print("Empty response from AdSense API - no accounts found")
+                    return .failure(.noAccountID)
+                }
+                
                 do {
                     let decoder = JSONDecoder()
                     let accounts = try decoder.decode(AccountsResponse.self, from: data)
@@ -552,6 +568,11 @@ class AdSenseAPI {
                         return .failure(.noAccountID)
                     }
                 } catch {
+                    print("Decoding error: \(error)")
+                    // If decoding fails and we have an empty response, treat as no account
+                    if String(data: data, encoding: .utf8) == "{}" {
+                        return .failure(.noAccountID)
+                    }
                     return .failure(.decodingError(error.localizedDescription))
                 }
             case 401:

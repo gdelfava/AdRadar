@@ -336,7 +336,9 @@ struct SummaryEmptyStateView: View {
     
     // Determine icon and color based on message type
     private var iconName: String {
-        if message.contains("sign in") || message.contains("UNAUTHENTICATED") {
+        if message.contains("UNAUTHENTICATED") {
+            return "person.crop.circle.badge.exclamationmark"
+        } else if message.contains("sign in") {
             return "person.crop.circle.badge.exclamationmark"
         } else if message.contains("No AdSense account") {
             return "creditcard.slash"
@@ -350,10 +352,12 @@ struct SummaryEmptyStateView: View {
     }
     
     private var iconColor: Color {
-        if message.contains("sign in") || message.contains("UNAUTHENTICATED") {
+        if message.contains("UNAUTHENTICATED") {
+            return .red
+        } else if message.contains("sign in") {
             return .orange
         } else if message.contains("No AdSense account") {
-            return .red
+            return .orange
         } else if message.contains("connection") || message.contains("network") {
             return .blue
         } else if message.contains("Unable to load") {
@@ -364,10 +368,12 @@ struct SummaryEmptyStateView: View {
     }
     
     private var titleText: String {
-        if message.contains("sign in") || message.contains("UNAUTHENTICATED") {
+        if message.contains("UNAUTHENTICATED") {
+            return "Authentication Required"
+        } else if message.contains("sign in") {
             return "Authentication Required"
         } else if message.contains("No AdSense account") {
-            return "No AdSense Account"
+            return "No AdSense Account Found"
         } else if message.contains("connection") || message.contains("network") {
             return "No Internet Connection"
         } else if message.contains("Unable to load") {
@@ -378,10 +384,12 @@ struct SummaryEmptyStateView: View {
     }
     
     private var subtitleText: String {
-        if message.contains("sign in") || message.contains("UNAUTHENTICATED") {
+        if message.contains("UNAUTHENTICATED") {
+            return "Please sign in again to access your earnings data. Your session may have expired."
+        } else if message.contains("sign in") {
             return "Please sign in to view your earnings data"
         } else if message.contains("No AdSense account") {
-            return "No AdSense account found"
+            return "Create an AdSense account to start monetizing your content and track your earnings with AdRadar"
         } else if message.contains("connection") || message.contains("network") {
             return "Unable to load data. Please check your connection."
         } else if message.contains("Unable to load") {
