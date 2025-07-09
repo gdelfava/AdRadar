@@ -9,7 +9,10 @@ extension Font {
         if let optimizedFont = MemoryManager.shared.optimizedFont(name: weight.fontName, size: size) {
             return Font(optimizedFont)
         }
-        return .custom(weight.fontName, size: size)
+        
+        // Add Dynamic Type support
+        let scaledSize = UIFontMetrics.default.scaledValue(for: size)
+        return .custom(weight.fontName, size: scaledSize)
     }
     
     // MARK: - Predefined Sora Sizes

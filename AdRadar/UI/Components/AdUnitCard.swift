@@ -44,6 +44,15 @@ struct AdUnitCard: View {
         .background(Color(.secondarySystemBackground))
         .cornerRadius(12)
         .shadow(color: Color.black.opacity(0.05), radius: 4, x: 0, y: 2)
+        .accessibleCard(
+            label: "\(adUnit.adUnitName) ad unit",
+            value: AccessibilityUtilities.metricDescription(
+                title: selectedFilter.rawValue,
+                value: adUnit.getValue(for: selectedFilter, isDemoMode: authViewModel.isDemoMode),
+                period: adUnit.displayDescription
+            ),
+            hint: "Double tap to view detailed metrics for this ad unit"
+        )
     }
     
     private var adUnitIcon: some View {
